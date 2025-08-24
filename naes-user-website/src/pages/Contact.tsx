@@ -2,7 +2,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import contactHeroImage from '@/assets/images/contact-banner.png';
 // import emailImage from '@/assets/images/email.jpg';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getCaptcha, sendContactMessage } from '@/services/contact';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css';
@@ -48,7 +48,9 @@ const ContactPage = () => {
   const [whatsappValue, setWhatsappValue] = useState<string>('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // 移除未使用的 submitStatus
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'success' | 'error'
+  >('idle');
 
   // 验证码
   const [captchaImgUrl, setCaptchaImgUrl] = useState<string>('');
@@ -65,6 +67,7 @@ const ContactPage = () => {
   const prevFocusRef = useRef<HTMLElement | null>(null);
 
   // 读取/写入本地缓存（UUID + 过期时间）
+  const now = useMemo(() => Date.now(), []);
 
   const loadCaptcha = async (force = false) => {
     try {
@@ -150,6 +153,7 @@ const ContactPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus('idle');
 
     try {
       if (!captchaUUID || !captchaAnswer) {
@@ -165,6 +169,7 @@ const ContactPage = () => {
       // 本地过期校验：过期则直接拦截并提示，刷新验证码
       const expireAt = Number(localStorage.getItem('captcha_expire_at') || 0);
       if (!expireAt || expireAt <= Date.now()) {
+        setSubmitStatus('error');
         await loadCaptcha(true);
         setCaptchaError(t('form.captchaExpired', '验证码已过期，请刷新验证码'));
         setCaptchaAnswer('');
@@ -201,6 +206,7 @@ const ContactPage = () => {
         bizSuccess === false || bizCodeNum === 400 || bizCodeNum === 601;
       if (httpStatus === 400 || isCaptchaBizFail) {
         // 验证码错误或业务失败（兼容 code/status=400/601、success=false）
+        setSubmitStatus('error');
         const backendMsg = res?.message || res?.msg || res?.data?.message || '';
         await loadCaptcha(true);
         // 若后端明确返回 captcha 验证失败，则使用精确提示
@@ -215,6 +221,7 @@ const ContactPage = () => {
         return;
       }
 
+      setSubmitStatus('success');
       // 显示自定义成功弹窗
       // 记录当前焦点以便关闭后还原
       try { prevFocusRef.current = document.activeElement as HTMLElement; } catch {}
@@ -234,6 +241,7 @@ const ContactPage = () => {
       await loadCaptcha(true);
     } catch (error) {
       console.error('Form submission error:', error);
+      setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }

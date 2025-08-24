@@ -1,8 +1,25 @@
 import axios from 'axios'
 import { loadingBegin, loadingEnd } from '../stores/loading'
 
-// 强制使用同源代理 '/api'（部署需配置反向代理至真实后端）
-const baseURL = '/api'
+// 动态选择 API 根路径：开发环境统一走本地代理 '/api'，生产走线上地址
+let baseURL = 'https://beta-admin.natureessential.ltd/api'
+try {
+  // 优先使用打包时注入的 NODE_ENV
+  // rspack 会在打包期替换 process.env.NODE_ENV
+  // 开发环境 -> '/api'
+  if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'development') {
+    baseURL = '/api'
+  } else if (typeof window !== 'undefined') {
+    // 兜底：本地/局域网/HTTP 也走 '/api'
+    const { protocol, hostname } = window.location || {}
+    const isLocalName = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(hostname || '')
+    const isLan = /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[0-1])\.)/.test(hostname || '')
+    const isHttp = protocol === 'http:'
+    if (isLocalName || isLan || isHttp) {
+      baseURL = '/api'
+    }
+  }
+} catch (_) {}
 
 const http = axios.create({
   baseURL,

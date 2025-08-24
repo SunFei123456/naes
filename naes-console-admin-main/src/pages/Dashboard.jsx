@@ -52,10 +52,12 @@ export default function Dashboard() {
   const days = useMemo(() => Array.from({ length: 30 }).map((_, i) => dayjs().startOf('day').subtract(29 - i, 'day')), [])
   const trend = useMemo(() => days.map(d => ({
     date: d.format('MM-DD'),
-    ts: d.valueOf(),
+    // uPlot 对 time 轴通常使用“秒”为单位，这里改为 Unix 秒
+    ts: d.unix(),
     count: list.filter(m => dayjs(m.createdAt).isAfter(d) && dayjs(m.createdAt).isBefore(d.add(1, 'day'))).length,
   })), [days, list])
   const maxCount = useMemo(() => Math.max(1, ...trend.map(x => x.count)), [trend])
+  // x 轴传入秒，确保与 uPlot scales.time 一致
   const uplotData = useMemo(() => [trend.map(x => x.ts), trend.map(x => x.count)], [trend])
 
   // Top 5 公司
@@ -148,10 +150,10 @@ export default function Dashboard() {
           <UPlotChart
             data={uplotData}
             className="w-full"
-            style={{ height: 240 }}
             options={{ scales: { x: { time: true } } }}
             isDark={isDark}
-            xTickFormatter={(ts) => dayjs(ts).format('MM-DD')}
+            // 这里的 ts 为“秒”，显示时转回毫秒给 dayjs
+            xTickFormatter={(ts) => dayjs(ts * 1000).format('MM-DD')}
           />
         </div>
 
