@@ -26,7 +26,14 @@ interface ContactFormData {
 }
 
 const ContactPage = () => {
-  const { t } = useTranslation('contact');
+  const { t, i18n } = useTranslation('contact');
+
+  // 留言最大字数限制
+  const MAX_MESSAGE_LEN = 800;
+
+  // 区号下拉多语言：根据全局语言切换国家名称显示
+  const isZh = useMemo(() => (i18n.language || '').toLowerCase().startsWith('zh'), [i18n.language]);
+  const phoneLocalization = isZh ? zhCNLocales : undefined;
 
   // 获取团队成员数据
   // const teamMembers = t('team.members', {
@@ -58,6 +65,7 @@ const ContactPage = () => {
   const [captchaAnswer, setCaptchaAnswer] = useState<string>('');
   const [captchaLoading, setCaptchaLoading] = useState<boolean>(false);
   const [captchaError, setCaptchaError] = useState<string>('');
+  const [captchaErrorCode, setCaptchaErrorCode] = useState<'expired' | 'failedRefreshed' | 'invalid' | ''>('');
   const [captchaExpireAt, setCaptchaExpireAt] = useState<number>(0);
   const [captchaRemain, setCaptchaRemain] = useState<number>(0);
   // 发送成功弹窗
@@ -96,6 +104,7 @@ const ContactPage = () => {
       }
       setCaptchaAnswer('');
       setCaptchaError('');
+      setCaptchaErrorCode('');
     } catch (e) {
       console.error('load captcha failed', e);
     } finally {
@@ -128,8 +137,8 @@ const ContactPage = () => {
       const left = Math.max(0, Math.floor((captchaExpireAt - Date.now()) / 1000));
       setCaptchaRemain(left);
       if (left === 0) {
-        // 过期时给出错误提示（不自动刷新，保持与流程图一致）
-        setCaptchaError((prev) => prev || t('form.captchaExpired', '验证码已过期，请刷新验证码'));
+        // 过期时标记错误码（不自动刷新，保持与流程图一致）
+        setCaptchaErrorCode((prev) => prev || 'expired');
       }
     }, 1000);
     return () => clearInterval(timer);
@@ -143,9 +152,10 @@ const ContactPage = () => {
     >,
   ) => {
     const { name, value } = e.target;
+    const nextValue = name === 'message' ? value.slice(0, MAX_MESSAGE_LEN) : value;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: nextValue,
     }));
   };
 
@@ -161,8 +171,8 @@ const ContactPage = () => {
         throw new Error('captcha required');
       }
 
-      // 简单前端校验：邮箱必填，whatsapp 必填
-      if (!formData.email || !whatsappValue) {
+      // 简单前端校验：邮箱必填（Company/Phone/WhatsApp 可选）
+      if (!formData.email) {
         throw new Error('required fields missing');
       }
 
@@ -171,7 +181,8 @@ const ContactPage = () => {
       if (!expireAt || expireAt <= Date.now()) {
         setSubmitStatus('error');
         await loadCaptcha(true);
-        setCaptchaError(t('form.captchaExpired', '验证码已过期，请刷新验证码'));
+        setCaptchaError('');
+        setCaptchaErrorCode('expired');
         setCaptchaAnswer('');
         return;
       }
@@ -212,11 +223,16 @@ const ContactPage = () => {
         // 若后端明确返回 captcha 验证失败，则使用精确提示
         const lower = String(backendMsg).toLowerCase();
         const isKnownCaptchaFail = lower.includes('captcha verification failed');
-        setCaptchaError(
-          isKnownCaptchaFail
-            ? '验证码验证失败,已刷新, 请重新输入'
-            : backendMsg || t('form.captchaInvalid', '验证失败，请刷新验证码')
-        );
+        if (isKnownCaptchaFail) {
+          setCaptchaError('');
+          setCaptchaErrorCode('failedRefreshed');
+        } else if (backendMsg) {
+          setCaptchaError(String(backendMsg));
+          setCaptchaErrorCode('');
+        } else {
+          setCaptchaError('');
+          setCaptchaErrorCode('invalid');
+        }
         setCaptchaAnswer('');
         return;
       }
@@ -419,34 +435,35 @@ const ContactPage = () => {
                   </label>
                   <div className="w-full">
                     <PhoneInput
+                      key={isZh ? 'phone-zh' : 'phone-en'}
                       country={'cn'}
                       value={phoneValue}
                       onChange={(val) => setPhoneValue(val || '')}
                       enableSearch
-                      localization={zhCNLocales}
+                      localization={phoneLocalization as any}
                       inputProps={{ id: 'phone', name: 'phone', placeholder: t('form.placeholders.phone', '请输入您的电话号码') as string }}
                       containerClass="w-full"
                       inputClass="!w-full !h-[48px] !text-base"
                     />
                   </div>
                 </div>
-              </div>
-
+                </div>
               {/* 第三行：WhatsApp */}
               <div>
                 <label
                   htmlFor="whatsapp"
                   className="mb-2 block text-sm font-medium text-gray-700"
                 >
-                  WhatsApp <span className="text-red-500">*</span>
+                  WhatsApp
                 </label>
                 <div className="w-full">
                   <PhoneInput
+                    key={isZh ? 'wa-zh' : 'wa-en'}
                     country={'cn'}
                     value={whatsappValue}
                     onChange={(val) => setWhatsappValue(val || '')}
                     enableSearch
-                    localization={zhCNLocales}
+                    localization={phoneLocalization as any}
                     inputProps={{ id: 'whatsapp', name: 'whatsapp', placeholder: '请输入 WhatsApp 号码' }}
                     containerClass="w-full"
                     inputClass="!w-full !h-[48px] !text-base"
@@ -470,12 +487,27 @@ const ContactPage = () => {
                   onChange={handleInputChange}
                   required
                   rows={6}
+                  maxLength={MAX_MESSAGE_LEN}
                   className="resize-vertical w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#204f3e]"
                   placeholder={t(
                     'form.placeholders.message',
                     '请详细描述您的需求或问题...',
                   )}
                 />
+                {/* 字数统计显示 */}
+                <div className="mt-1 text-right text-xs">
+                  <span
+                    className={
+                      formData.message.length >= MAX_MESSAGE_LEN
+                        ? 'text-red-600'
+                        : formData.message.length >= Math.floor(MAX_MESSAGE_LEN * 0.9)
+                        ? 'text-yellow-600'
+                        : 'text-gray-500'
+                    }
+                  >
+                    {formData.message.length}/{MAX_MESSAGE_LEN}
+                  </span>
+                </div>
               </div>
 
               {/* 验证码 */}
@@ -497,11 +529,21 @@ const ContactPage = () => {
                     className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#204f3e]"
                     placeholder={t('form.placeholders.captcha', '请输入图片中的字符')}
                   />
-                  {captchaError ? (
-                    <p className="mt-2 text-xs text-red-600">{captchaError}</p>
-                  ) : (
-                    <p className="mt-2 text-xs text-gray-500">{t('form.captchaHint', '看不清？点击右侧图片刷新')}</p>
-                  )}
+                  {(() => {
+                    const errorText =
+                      captchaErrorCode === 'failedRefreshed'
+                        ? t('form.captchaFailedRefreshed', '验证码失败, 已刷新,请重新输入')
+                        : captchaErrorCode === 'expired'
+                        ? t('form.captchaExpired', '验证码已过期，请刷新验证码')
+                        : captchaErrorCode === 'invalid'
+                        ? t('form.captchaInvalid', '验证失败，请刷新验证码')
+                        : captchaError;
+                    return errorText ? (
+                      <p className="mt-2 text-xs text-red-600">{errorText}</p>
+                    ) : (
+                      <p className="mt-2 text-xs text-gray-500">{t('form.captchaHint', '看不清？点击右侧图片刷新')}</p>
+                    );
+                  })()}
                 </div>
                 <div className="flex items-center justify-start md:justify-end">
                   <button

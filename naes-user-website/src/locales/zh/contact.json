@@ -84,6 +84,7 @@
     "ok": "确定",
     "captchaExpired": "验证码已过期，请刷新验证码",
     "captchaInvalid": "验证失败，请刷新验证码后重试",
+    "captchaFailedRefreshed": "验证码失败, 已刷新,请重新输入",
     "autoCloseIn": "将于 {{s}} 秒后自动关闭",
     "captchaTimeLeft": "剩余{{s}}秒"
   }

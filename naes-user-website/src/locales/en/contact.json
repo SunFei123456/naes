@@ -84,6 +84,7 @@
     "ok": "OK",
     "captchaExpired": "Captcha expired, please refresh",
     "captchaInvalid": "Verification failed, please refresh the captcha and try again",
+    "captchaFailedRefreshed": "Captcha verification failed, refreshed, please re-enter",
     "autoCloseIn": "Will close automatically in {{s}} seconds",
     "captchaTimeLeft": "{{s}}s left"
   }

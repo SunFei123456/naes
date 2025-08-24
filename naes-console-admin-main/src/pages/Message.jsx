@@ -249,7 +249,6 @@ export default function Message() {
               <div>company: {current.company || '-'}</div>
               <div>phone: {current.phone || '-'}</div>
               <div>whatsapp: {current.whatsapp || '-'}</div>
-              <div>status: {current.status}</div>
             </div>
             <div className="pt-2 border-t border-gray-200 dark:border-zinc-800">
               <div className="text-sm font-medium mb-1">message</div>
