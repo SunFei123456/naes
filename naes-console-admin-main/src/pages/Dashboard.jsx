@@ -28,7 +28,14 @@ export default function Dashboard() {
         // 取最近 200 条用于趋势、Top 公司和最近 10 条；总数从后端分页信息读取
         const { list, total } = await fetchMessagePage({ page: 1, pageSize: 200 })
         if (!mounted) return
-        setList(Array.isArray(list) ? list : [])
+        const sorted = Array.isArray(list)
+          ? [...list].sort((a, b) => {
+              const at = a?.createdAt ? new Date(a.createdAt).getTime() : 0
+              const bt = b?.createdAt ? new Date(b.createdAt).getTime() : 0
+              return bt - at // 倒序：最新在前
+            })
+          : []
+        setList(sorted)
         setTotal(Number(total) || 0)
       } catch (_) {
         if (!mounted) return
@@ -69,8 +76,17 @@ export default function Dashboard() {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
 
-  // 最近10条
-  const recent = useMemo(() => list.slice(0, 10), [list])
+  // 最近三天，仅显示正序（最早在前），再取前10条
+  const last3Start = useMemo(() => dayjs().startOf('day').subtract(2, 'day'), [])
+  const recent = useMemo(() => {
+    const filtered = (list || []).filter(m => dayjs(m.createdAt).isAfter(last3Start) || dayjs(m.createdAt).isSame(last3Start))
+    filtered.sort((a, b) => {
+      const av = a?.createdAt ? new Date(a.createdAt).getTime() : 0
+      const bv = b?.createdAt ? new Date(b.createdAt).getTime() : 0
+      return bv - av // 倒序：最新在前
+    })
+    return filtered.slice(0, 10)
+  }, [list, last3Start])
   const [recentSorting, setRecentSorting] = useState([])
   const sortedRecent = useMemo(() => {
     if (!recent || recent.length === 0) return []
@@ -174,7 +190,7 @@ export default function Dashboard() {
 
       {/* 最近消息表 */}
       <div className="rounded border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900" data-guide="dash-recent">
-        <div className="px-4 py-3 border-b border-gray-200 dark:border-zinc-800 text-sm font-medium">Recent Messages</div>
+        <div className="px-4 py-3 border-b border-gray-200 dark:border-zinc-800 text-sm font-medium">Recent Messages(3dy)</div>
         <div className="p-3">
           <DataTablePro
             columns={columns}

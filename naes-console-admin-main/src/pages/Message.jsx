@@ -21,10 +21,10 @@ export default function Message() {
   const [pageSize, setPageSize] = useState(20);
   const [total, setTotal] = useState(0);
   const [list, setList] = useState([]);
-  const [sorting, setSorting] = useState([]);
+  // 默认时间倒序排序（最新在前）
+  const [sorting, setSorting] = useState([{ id: 'createdAt', desc: true }]);
   const [density, setDensity] = useState('default'); // 'default' | 'compact'
   const [columnVisibility, setColumnVisibility] = useState({});
-  const [showColumnMenu, setShowColumnMenu] = useState(false);
   const listLoading = useLoadingStore(s => Boolean(s.pendingCount['list']));
 
   const [detailOpen, setDetailOpen] = useState(false);
@@ -36,6 +36,15 @@ export default function Message() {
     { key: 'email', title: t('message.email'), dataIndex: 'email' },
     { key: 'createdAt', title: t('message.createdAt'), dataIndex: 'createdAt', render: v => dayjs(v).format('YYYY-MM-DD HH:mm') },
   ]), [t])
+
+  // 统一获取当前排序参数
+  const getSortParams = () => {
+    const s = sorting && sorting.length > 0 ? sorting[0] : null
+    return {
+      sortField: s?.id || '',
+      sortOrder: s?.desc ? 'desc' : (s ? 'asc' : ''),
+    }
+  }
 
   // 初始化列可见性（默认全部可见）
   useEffect(() => {
@@ -75,6 +84,13 @@ export default function Message() {
         if (av > bv) return sortOrder === 'asc' ? 1 : -1
         return 0
       })
+    } else {
+      // 无显式排序字段时，默认按 createdAt 倒序（最新在前）
+      next.sort((a, b) => {
+        const at = a?.createdAt ? new Date(a.createdAt).getTime() : 0
+        const bt = b?.createdAt ? new Date(b.createdAt).getTime() : 0
+        return bt - at
+      })
     }
     setList(next);
     setTotal(total);
@@ -100,9 +116,11 @@ export default function Message() {
     const company = params.get('company');
     if (company) {
       if (company !== keyword) setKeyword(company);
-      runSearch(1, pageSize, '', '', company);
+      const { sortField, sortOrder } = getSortParams()
+      runSearch(1, pageSize, sortField, sortOrder, company);
     } else {
-      runSearch(1, pageSize);
+      const { sortField, sortOrder } = getSortParams()
+      runSearch(1, pageSize, sortField, sortOrder);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search])
@@ -111,7 +129,8 @@ export default function Message() {
     setKeyword('')
     setStartAt('')
     setEndAt('')
-    runSearch(1, pageSize)
+    const { sortField, sortOrder } = getSortParams()
+    runSearch(1, pageSize, sortField, sortOrder)
   }
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
@@ -125,7 +144,10 @@ export default function Message() {
           keyword={keyword} setKeyword={setKeyword}
           startAt={startAt} setStartAt={setStartAt}
           endAt={endAt} setEndAt={setEndAt}
-          onSearch={() => runSearch(1, pageSize)}
+          onSearch={() => {
+            const { sortField, sortOrder } = getSortParams()
+            runSearch(1, pageSize, sortField, sortOrder)
+          }}
           onReset={onReset}
         />
       </div>
@@ -156,7 +178,8 @@ export default function Message() {
             const newPagination = typeof updater === 'function' 
               ? updater({ pageIndex: page - 1, pageSize }) 
               : updater;
-            runSearch(newPagination.pageIndex + 1, newPagination.pageSize);
+            const { sortField, sortOrder } = getSortParams()
+            runSearch(newPagination.pageIndex + 1, newPagination.pageSize, sortField, sortOrder);
           }}
           sorting={sorting}
           onSortingChange={setSorting}
@@ -190,12 +213,24 @@ export default function Message() {
             <span>Next</span>
             <Icon name="chevronRight" className="w-4 h-4" />
           </button>
-          <select className="ml-2 px-2 py-1 rounded border dark:border-zinc-700 bg-transparent" value={pageSize} onChange={e => runSearch(1, Number(e.target.value))}>
-            {[10,20,50,100].map(sz => <option key={sz} value={sz}>{sz}/page</option>)}
+          <select
+            className="ml-2 px-2 py-1 rounded border border-gray-300 dark:border-zinc-700 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            value={pageSize}
+            onChange={e => runSearch(1, Number(e.target.value))}
+          >
+            {[10,20,50,100].map(sz => (
+              <option
+                key={sz}
+                value={sz}
+                className="bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-200"
+              >
+                {sz}/page
+              </option>
+            ))}
           </select>
         </div>
 
-        {/* 右侧：密度切换 + 列控制 */}
+        {/* 右侧：密度切换（已移除 Columns 按钮） */}
         <div className="relative flex items-center gap-2">
           <button
             className="px-2 py-1 rounded border dark:border-zinc-700 text-sm inline-flex items-center gap-1"
@@ -205,31 +240,6 @@ export default function Message() {
             <Icon name="list" className="w-3.5 h-3.5" />
             <span>{density === 'default' ? 'Density: Default' : 'Density: Compact'}</span>
           </button>
-          <button
-            className="px-2 py-1 rounded border dark:border-zinc-700 text-sm inline-flex items-center gap-1"
-            onClick={() => setShowColumnMenu(v => !v)}
-            title="Columns"
-          >
-            <Icon name="bars" className="w-3.5 h-3.5" />
-            <span>Columns</span>
-          </button>
-          {showColumnMenu && (
-            <div className="absolute right-0 top-10 z-20 w-48 rounded border dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow">
-              <div className="px-3 py-2 text-xs text-gray-500">Toggle columns</div>
-              <div className="max-h-60 overflow-auto py-1">
-                {columns.map(c => (
-                  <label key={c.key} className="flex items-center gap-2 px-3 py-1 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={columnVisibility[c.key] !== false}
-                      onChange={e => setColumnVisibility(v => ({ ...v, [c.key]: e.target.checked }))}
-                    />
-                    <span className="truncate">{c.title}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
