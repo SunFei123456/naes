@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "Welcome",
+    "subtitle": "Innovative solutions for your business"
+  },
+
+  "about": {
+    "title": "About us",
+    "mainSection": {
+      "text": "Hangzhou Nature Essential Biological Technology Co., Ltd. is an international supplier specializing in premium nutraceutical ingredients and natural extracts. Capitalizing on the advantages of biopharmaceutical industry clusters, we provide core ingredient solutions compliant with stringent standards (FDA/EFSA/MFDS) for global nutritional food, functional beverage, and dietary supplement brands.",
+      "button": "Learn More"
+    },
+    "features": {
+      "feature1": {
+        "title": "To...",
+        "description": "To be Continue......"
+      },
+      "feature2": {
+        "title": "To...",
+        "description": "To be Continue....."
+      },
+      "feature3": {
+        "title": "V...",
+        "description": "To be Continue....."
+      },
+      "feature4": {
+        "title": "To...",
+        "description": "To be Continue......"
+      }
+    }
+  },
+
+  "products": {
+    "title": "Products Center",
+    "learnMore": "Learn More",
+    "navigation": {
+      "left": "Previous",
+      "right": "Next",
+      "up": "Up",
+      "down": "Down"
+    }
+  }
+}

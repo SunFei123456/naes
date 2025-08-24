@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS变量定义 */
+:root {
+    --header-height: 136px;
+    /* 56px (sub-header) + 80px (main nav) */
+}
+
+/* Header相关实用类 */
+.pt-header {
+    padding-top: var(--header-height);
+}
+
+.mt-header {
+    margin-top: var(--header-height);
+}
+
+/* 基础全局样式 */
+html,
+body {
+    @apply w-full h-screen;
+    /* 统一用 h-screen */
+}
+
+body {
+    @apply bg-white text-gray-900 antialiased leading-relaxed tracking-normal relative;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-variant-numeric: tabular-nums;
+}
+
+/* 优化标题字体 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    letter-spacing: -0.025em;
+}
+
+/* 优化按钮和链接字体 */
+button,
+.btn,
+a {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+/* 自定义滚动条（实用类） */
+@layer utilities {
+    ::-webkit-scrollbar {
+        @apply w-4 h-4 transition-colors duration-300;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply rounded-full border-[5px] border-transparent;
+        box-shadow: inset 0 0 0 1rem rgba(32, 107, 196, 0.16);
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+}

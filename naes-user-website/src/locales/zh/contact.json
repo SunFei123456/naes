@@ -1,0 +1,90 @@
+{
+  "hero": {
+    "title": "联系我们"
+  },
+  "companyInfo": {
+    "title": "如何联系我们",
+    "address": {
+      "title": "公司地址:",
+      "line1": "北京市朝阳区xx路",
+      "line2": "中国上海"
+    },
+    "email": "contact@example.com"
+  },
+  "team": {
+    "title": "业务团队",
+    "subtitle": "诚信、务实、进取、共赢",
+    "members": [
+      {
+        "name": "李勇",
+        "title": "[商务总监] [销售总监] 中国区",
+        "phone": "+86 15171721777",
+        "email": "liyong@maiggic.com"
+      },
+      {
+        "name": "丁安娜",
+        "title": "[销售总监] 国际业务",
+        "phone": "+86 18017375246",
+        "email": "diana@maiggic.com"
+      },
+      {
+        "name": "哈里·布鲁格纳",
+        "title": "[核苷酸业务发展] 欧洲/美洲",
+        "phone": "+41 79 348 71 22",
+        "email": "harry@maiggic.com"
+      },
+      {
+        "name": "朱伊莲",
+        "title": "[核苷酸业务发展] 亚太地区",
+        "phone": "+86 17721334149",
+        "email": "elaine@maiggic.com"
+      }
+    ],
+    "labels": {
+      "phone": "电话:",
+      "email": "邮箱:"
+    }
+  },
+  "form": {
+    "title": "联系我们",
+    "subtitle": "有任何问题或需要了解更多信息？请填写下面的表单，我们会尽快回复您。",
+    "fields": {
+      "name": "姓名",
+      "email": "邮箱",
+      "company": "公司名称",
+      "phone": "电话号码",
+      "subject": "主题",
+      "message": "消息内容",
+      "captcha": "验证码"
+    },
+    "placeholders": {
+      "name": "请输入您的姓名",
+      "email": "请输入您的邮箱",
+      "company": "请输入您的公司名称",
+      "phone": "请输入您的电话号码",
+      "subject": "请选择咨询主题",
+      "message": "请详细描述您的需求或问题...",
+      "captcha": "请输入图片中的字符"
+    },
+    "subjects": {
+      "product": "产品咨询",
+      "partnership": "合作洽谈",
+      "support": "技术支持",
+      "pricing": "价格咨询",
+      "other": "其他"
+    },
+    "submit": "发送消息",
+    "submitting": "发送中...",
+    "success": "消息发送成功！我们会尽快回复您。",
+    "error": "发送失败，请稍后重试或直接联系我们。",
+    "captchaHint": "看不清？点击右侧图片刷新",
+    "loadingCaptcha": "加载中...",
+    "sendSuccess": "发送成功",
+    "sendSuccessDesc": "您的消息已成功发送，我们会尽快与您联系。",
+    "ok": "确定",
+    "captchaExpired": "验证码已过期，请刷新验证码",
+    "captchaInvalid": "验证失败，请刷新验证码后重试",
+    "autoCloseIn": "将于 {{s}} 秒后自动关闭",
+    "captchaTimeLeft": "剩余{{s}}秒"
+  }
+}

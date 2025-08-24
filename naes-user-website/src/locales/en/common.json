@@ -1,0 +1,48 @@
+{
+  "subHeader": {
+    "welcome": "Welcome !",
+    "phone": {
+      "number": "+86 13227775215",
+      "display": "+86 132 2777 5215"
+    },
+    "email": {
+      "address": "sales@greenspringbio.com",
+      "display": "sales@greenspringbio.com"
+    }
+  },
+  "header": {
+    "home": "Home",
+    "about": "About Us",
+    "whyChooseUs": "Why Choose Us",
+    "products": "Products",
+    "contact": "Contact",
+    "qa": "Q&A"
+  },
+  "language": {
+    "toggle": "中",
+    "current": "EN"
+  },
+
+  "footer": {
+    "contact": {
+      "email": "Email: sales@natureessential.ltd",
+      "address": "Address: Hangzhou Nature Essential Biological Tech Co.,Ltd"
+    },
+    "right": {
+      "phone": "Phone: 0571-85502995",
+      "copyright": "© Hangzhou Jingran Biotechnology Co., Ltd."
+    }
+  },
+
+  "button": {
+    "name": "Learn More"
+  },
+
+  "error": {
+    "fetchingProducts": "Failed to load products",
+    "networkError": "Network error",
+    "retry": "Retry"
+  },
+  "loading": "Loading",
+  "noProducts": "No products available"
+}

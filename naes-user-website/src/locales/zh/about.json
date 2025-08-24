@@ -1,0 +1,20 @@
+{
+  "hero": {
+    "title": "关于Magic Health"
+  },
+  "content": {
+    "title": "Nature Essential",
+    "description": "杭州精然生物科技有限公司（Hangzhou Nature Essential Biological Tech Co.,Ltd）是一家专注于高价值保健品原料及天然提取物的国际化供应商。依托生物医药产业聚集区优势，我们为全球营养食品、功能饮料及膳食补充剂品牌提供符合FDA、EFSA、MFDS等严苛标准的核心原料解决方案。",
+    "points": [
+      "...",
+      "...",
+      "..。"
+    ]
+  },
+  "stats": {
+    "founded": "成立于2021年",
+    "area": "产业园区面积",
+    "construction": "总建筑面积",
+    "investment": "计划总投资"
+  }
+}

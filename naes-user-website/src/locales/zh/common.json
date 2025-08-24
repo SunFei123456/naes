@@ -1,0 +1,40 @@
+{
+  "subHeader": {
+    "welcome": "欢迎 ！",
+    "phone": {
+      "number": "+8613227775215",
+      "display": "+86 132 2777 5215"
+    },
+    "email": {
+      "address": "sales@greenspringbio.com",
+      "display": "sales@greenspringbio.com"
+    }
+  },
+  "header": {
+    "home": "首页",
+    "about": "关于我们",
+    "whyChooseUs": "为什么选择我们",
+    "products": "产品中心",
+    "contact": "联系我们",
+    "qa": "常见问题"
+  },
+  "language": {
+    "toggle": "EN",
+    "current": "中"
+  },
+
+  "footer": {
+    "contact": {
+      "email": "邮箱: sales@natureessential.ltd",
+      "address": "地址: 杭州市萧山区盈丰街道左右世界1幢2单元1602"
+    },
+    "right": {
+      "phone": "电话: 0571-85502995",
+      "copyright": "© 杭州精然生物科技有限公司"
+    }
+  },
+
+  "button": {
+    "name": "更多"
+  }
+}

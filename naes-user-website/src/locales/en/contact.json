@@ -1,0 +1,90 @@
+{
+  "hero": {
+    "title": "Contact Us"
+  },
+  "companyInfo": {
+    "title": "How to Reach Us",
+    "address": {
+      "title": "Company Address:",
+      "line1": "Chaoyang District, Beijing",
+      "line2": "Shanghai, China"
+    },
+    "email": "sales@natureessential.ltd"
+  },
+  "team": {
+    "title": "Business Team",
+    "subtitle": "Honesty, pragmatism, forge ahead, win-win cooperation",
+    "members": [
+      {
+        "name": "Yong Li",
+        "title": "[Commercial Director] [Sales Director] China",
+        "phone": "+86 15171721777",
+        "email": "liyong@maiggic.com"
+      },
+      {
+        "name": "Diana Ding",
+        "title": "[Sales Director] International",
+        "phone": "+86 18017375246",
+        "email": "diana@maiggic.com"
+      },
+      {
+        "name": "Harry BRÜGNER",
+        "title": "[Nucleotides Business Development] Europe/Americas",
+        "phone": "+41 79 348 71 22",
+        "email": "harry@maiggic.com"
+      },
+      {
+        "name": "Elaine Zhu",
+        "title": "[Nucleotides Business Development] Asia-Pacific",
+        "phone": "+86 17721334149",
+        "email": "elaine@maiggic.com"
+      }
+    ],
+    "labels": {
+      "phone": "Phone:",
+      "email": "E-mail:"
+    }
+  },
+  "form": {
+    "title": "Contact Us",
+    "subtitle": "Have any questions or need more information? Please fill out the form below and we'll get back to you as soon as possible.",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "company": "Company",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "captcha": "Captcha"
+    },
+    "placeholders": {
+      "name": "Enter your name",
+      "email": "Enter your email address",
+      "company": "Enter your company name",
+      "phone": "Enter your phone number",
+      "subject": "Select inquiry subject",
+      "message": "Please describe your needs or questions in detail...",
+      "captcha": "Enter the characters in the image"
+    },
+    "subjects": {
+      "product": "Product Inquiry",
+      "partnership": "Partnership",
+      "support": "Technical Support",
+      "pricing": "Pricing Inquiry",
+      "other": "Other"
+    },
+    "submit": "Send Message",
+    "submitting": "Sending...",
+    "success": "Message sent successfully! We'll get back to you soon.",
+    "error": "Failed to send message. Please try again later or contact us directly.",
+    "captchaHint": "Can't see clearly? Click the image on the right to refresh",
+    "loadingCaptcha": "Loading...",
+    "sendSuccess": "Send success",
+    "sendSuccessDesc": "Your message has been sent successfully. We will get back to you soon.",
+    "ok": "OK",
+    "captchaExpired": "Captcha expired, please refresh",
+    "captchaInvalid": "Verification failed, please refresh the captcha and try again",
+    "autoCloseIn": "Will close automatically in {{s}} seconds",
+    "captchaTimeLeft": "{{s}}s left"
+  }
+}

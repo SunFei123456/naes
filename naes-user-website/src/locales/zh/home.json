@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "Welcome",
+    "subtitle": "为您的业务提供创新解决方案"
+  },
+
+  "about": {
+    "title": "关于我们",
+    "mainSection": {
+      "text": "杭州精然生物科技有限公司（Hangzhou Nature Essential Biological Tech Co.,Ltd）是一家专注于高价值保健品原料及天然提取物的国际化供应商。依托生物医药产业聚集区优势，我们为全球营养食品、功能饮料及膳食补充剂品牌提供符合FDA、EFSA、MFDS等严苛标准的核心原料解决方案。",
+      "button": "了解更多"
+    },
+    "features": {
+      "feature1": {
+        "title": "待...",
+        "description": "待续......"
+      },
+      "feature2": {
+        "title": "待...",
+        "description": "待续....."
+      },
+      "feature3": {
+        "title": "待...",
+        "description": "待续....."
+      },
+      "feature4": {
+        "title": "待...",
+        "description": "待续......"
+      }
+    }
+  },
+
+  "products": {
+    "title": "产品中心",
+    "learnMore": "了解更多",
+    "navigation": {
+      "left": "上一个",
+      "right": "下一个",
+      "up": "向上",
+      "down": "向下"
+    }
+  }
+}

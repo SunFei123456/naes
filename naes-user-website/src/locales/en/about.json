@@ -1,0 +1,20 @@
+{
+  "hero": {
+    "title": "About Magic Health"
+  },
+  "content": {
+    "title": "Nature Essential",
+    "description": "Hangzhou Nature Essential Biological Technology Co., Ltd. is an international supplier specializing in premium nutraceutical ingredients and natural extracts. Capitalizing on the advantages of biopharmaceutical industry clusters, we provide core ingredient solutions compliant with stringent standards (FDA/EFSA/MFDS) for global nutritional food, functional beverage, and dietary supplement brands.",
+    "points": [
+      "...",
+      "...",
+      "..."
+    ]
+  },
+  "stats": {
+    "founded": "Founded in 2021",
+    "area": "Industrial park area",
+    "construction": "Total construction area",
+    "investment": "Planned total investment"
+  }
+}

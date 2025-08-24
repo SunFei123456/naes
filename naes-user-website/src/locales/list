@@ -1,0 +1,435 @@
+{/* home */}
+{
+  "hero": {
+    "title": "Welcome",
+    "subtitle": "Innovative solutions for your business"
+  },
+
+  "about": {
+    "title": "About",
+    "mainSection": {
+      "text": "To be Continue...",
+      "button": "Learn More"
+    },
+    "features": {
+      "feature1": {
+        "title": "To...",
+        "description": "To be Continue......"
+      },
+      "feature2": {
+        "title": "To...",
+        "description": "To be Continue....."
+      },
+      "feature3": {
+        "title": "V...",
+        "description": "To be Continue....."
+      },
+      "feature4": {
+        "title": "To...",
+        "description": "To be Continue......"
+      }
+    }
+  },
+
+  "products": {
+    "title": "Products Center",
+    "learnMore": "Learn More",
+    "navigation": {
+      "left": "Previous",
+      "right": "Next",
+      "up": "Up",
+      "down": "Down"
+    }
+  }
+}
+
+{/* about */}
+{
+  "hero": {
+    "title": "关于Magic Health"
+  },
+  "content": {
+    "title": "Nature Essential",
+    "description": "等待填充",
+    "points": [
+      "...",
+      "...",
+      "..。"
+    ]
+  },
+  "stats": {
+    "founded": "成立于2021年",
+    "area": "产业园区面积",
+    "construction": "总建筑面积",
+    "investment": "计划总投资"
+  }
+}
+
+{/* products */}
+{
+  "hero": {
+    "title": "我们的产品"
+  },
+  "list": {
+    "learnMore": "了解更多"
+  },
+  "detail": {
+    "highlights": "产品亮点",
+    "benefits": "健康益处",
+    "specifications": "产品规格",
+    "percentage": "纯度",
+    "state": "形态",
+    "packaging": "包装",
+    "source": "来源"
+  },
+
+  "products": {
+    "pc": {
+      "name": "磷脂酰胆碱",
+      "description": "磷脂酰胆碱(PC)是细胞膜的主要成分，大量存在于大豆、蛋黄、动物肝脏和鱼类中。作为人体中最普遍的磷脂，它不仅对维持膜结构和流动性至关重要，还参与脂质代谢、神经信号传递和肝功能调节，被誉为\"细胞膜的构建者\"和\"肝脏健康的守护者\"。",
+      "highlights": [
+        "细胞膜的构建者",
+        "肝脏健康的守护者"
+      ],
+      "benefits": [
+        {
+          "title": "肝脏支持",
+          "description": "促进脂肪代谢，预防脂肪肝，加速肝细胞修复和再生。"
+        },
+        {
+          "title": "膜完整性",
+          "description": "增强细胞膜稳定性，确保营养物质高效运输和信号传导。"
+        },
+        {
+          "title": "大脑功能",
+          "description": "作为乙酰胆碱合成的前体，改善记忆和认知能力。"
+        },
+        {
+          "title": "心血管健康",
+          "description": "调节胆固醇代谢，降低动脉粥样硬化风险，保持血管弹性。"
+        },
+        {
+          "title": "抗炎抗氧化",
+          "description": "抑制炎症因子，中和自由基，减轻细胞氧化损伤。"
+        }
+      ]
+    },
+    "bh": {
+      "name": "盐酸小檗碱",
+      "description": "盐酸小檗碱是从多种植物中提取的生物活性生物碱，常见于黄连和黄柏等中药材中。呈黄色结晶粉末状，具有广泛的生物活性。传统用于治疗胃肠道感染和炎症，现代研究也发现其对多种健康状况具有潜在益处。",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "血糖调节",
+          "description": "有助于降低血糖水平，提高胰岛素敏感性。"
+        },
+        {
+          "title": "心血管健康",
+          "description": "降低胆固醇和甘油三酯，维护心脏健康。"
+        },
+        {
+          "title": "抗菌抗炎",
+          "description": "具有广谱抗菌和抗炎特性，有助于治疗感染和炎症。"
+        }
+      ]
+    },
+    "nmn": {
+      "name": "β-烟酰胺单核苷酸(NMN)",
+      "description": "β-烟酰胺单核苷酸(NMN)是烟酰胺腺嘌呤二核苷酸(NAD+)的直接前体，天然存在于西兰花、牛油果等食物中。作为细胞能量代谢的关键分子，NMN能提升体内NAD+水平，调节细胞修复、能量生产和抗衰老过程，是长寿研究的焦点。",
+      "highlights": [
+        "细胞能量代谢",
+        "长寿研究"
+      ],
+      "benefits": [
+        {
+          "title": "抗衰老",
+          "description": "刺激NAD+合成，激活sirtuins蛋白，促进DNA修复机制。"
+        },
+        {
+          "title": "能量提升",
+          "description": "提高线粒体效率和细胞能量生产。"
+        },
+        {
+          "title": "心血管与神经保护",
+          "description": "支持血管健康，增强认知功能，降低神经退行性疾病风险。"
+        }
+      ]
+    },
+    "pqq": {
+      "name": "吡咯喹啉醌二钠盐(PQQ)",
+      "description": "吡咯喹啉醌二钠盐(PQQ)是一种水溶性氧化还原辅酶，天然存在于土壤微生物、奇异果、青椒等植物和发酵食品中。作为线粒体功能的关键调节剂，PQQ能刺激线粒体生物发生，清除自由基，在细胞能量代谢和抗氧化防御中起重要作用，被誉为\"新一代抗氧化剂\"。",
+      "highlights": [
+        "新一代抗氧化剂",
+        "线粒体生物发生"
+      ],
+      "benefits": [
+        {
+          "title": "抗氧化抗衰老",
+          "description": "中和自由基，减轻氧化应激，延缓细胞衰老。"
+        },
+        {
+          "title": "线粒体支持",
+          "description": "促进线粒体生物发生和修复，增强细胞能量生产。"
+        },
+        {
+          "title": "神经保护",
+          "description": "支持大脑功能，改善记忆和认知能力，降低神经退行性疾病风险。"
+        }
+      ]
+    },
+    "rt": {
+      "name": "白藜芦醇",
+      "description": "白藜芦醇是一种天然多酚类化合物，存在于葡萄皮、红酒、蓝莓、花生等植物中。以其强效抗氧化特性闻名，能激活长寿相关蛋白(如Sirtuins)，调节细胞代谢和炎症反应，被誉为\"天然抗衰老分子\"，在长寿和慢性病预防领域有广泛应用。",
+      "highlights": [
+        "天然抗衰老分子",
+        "激活Sirtuins蛋白"
+      ],
+      "benefits": [
+        {
+          "title": "抗氧化抗衰老",
+          "description": "中和自由基，减轻氧化应激，激活长寿基因表达。"
+        },
+        {
+          "title": "心血管支持",
+          "description": "增强血管内皮功能，减少LDL氧化，预防动脉粥样硬化。"
+        },
+        {
+          "title": "抗炎与代谢健康",
+          "description": "抑制炎症因子，提高胰岛素敏感性，维持代谢平衡。"
+        }
+      ]
+    },
+    "et": {
+      "name": "麦角硫因(ET)",
+      "description": "麦角硫因(ET)是一种天然含硫抗氧化剂，主要存在于牛肝菌、燕麦、黑麦等蘑菇和谷物以及动物肝脏、肾脏组织中。其独特的分子结构赋予其卓越的抗氧化稳定性，能长期中和自由基，保护细胞免受氧化应激损伤。最新研究显示其在抗衰老、神经保护和护肤方面具有潜力。",
+      "highlights": [
+        "含硫抗氧化剂",
+        "穿越血脑屏障",
+        "紫外线皮肤保护"
+      ],
+      "benefits": [
+        {
+          "title": "强效抗氧化",
+          "description": "选择性清除自由基，减少DNA和蛋白质的氧化损伤。"
+        },
+        {
+          "title": "细胞防御",
+          "description": "增强线粒体功能，维持代谢平衡，延缓衰老。"
+        },
+        {
+          "title": "神经与皮肤健康",
+          "description": "穿越血脑屏障保护神经元；抵御紫外线引起的皮肤光老化。"
+        },
+        {
+          "title": "抗炎与免疫",
+          "description": "抑制促炎细胞因子，支持免疫稳态。"
+        }
+      ]
+    },
+    "ps": {
+      "name": "磷脂酰丝氨酸(PS)",
+      "description": "磷脂酰丝氨酸(PS)是天然存在于细胞膜中的磷脂，特别富集于脑细胞中。主要来源于大豆、卷心菜、动物脑组织和鱼类。作为大脑的关键结构成分，PS调节神经信号传递、膜流动性和神经递质释放，被誉为\"脑细胞膜营养素\"，在认知健康和抗衰老领域有广泛应用。",
+      "highlights": [
+        "脑细胞膜营养素",
+        "调节神经递质释放",
+        "大豆来源磷脂"
+      ],
+      "benefits": [
+        {
+          "title": "认知支持",
+          "description": "增强记忆力、专注力和学习能力，减缓年龄相关的认知衰退。"
+        },
+        {
+          "title": "减压",
+          "description": "调节皮质醇水平，缓解压力和焦虑，改善情绪稳定性。"
+        },
+        {
+          "title": "神经保护",
+          "description": "保护神经元膜完整性，减少氧化损伤，降低神经退行性疾病风险。"
+        },
+        {
+          "title": "运动恢复",
+          "description": "减轻运动后疲劳，支持肌肉细胞修复和能量代谢。"
+        }
+      ]
+    },
+    "spe": {
+      "name": "锯棕榈提取物",
+      "description": "锯棕榈提取物源自北美原生植物锯齿棕(Serenoa repens)的成熟浆果，富含脂肪酸、植物甾醇和多酚。传统用于支持泌尿和生殖健康，现代研究证实其通过调节激素代谢和抑制炎症，能有效缓解良性前列腺增生(BPH)及相关症状，是天然前列腺健康的标志性成分。",
+      "highlights": [
+        "锯齿棕浆果",
+        "抑制5α-还原酶",
+        "缓解BPH症状"
+      ],
+      "benefits": [
+        {
+          "title": "前列腺支持",
+          "description": "抑制5α-还原酶活性，减少DHT产生，缓解前列腺增大和泌尿症状。"
+        },
+        {
+          "title": "抗炎抗氧化",
+          "description": "抑制前列腺中的促炎细胞因子，保护泌尿组织免受氧化应激损伤。"
+        },
+        {
+          "title": "激素平衡",
+          "description": "调节雄激素代谢，改善激素失衡引起的脱发和皮肤问题。"
+        },
+        {
+          "title": "泌尿功能",
+          "description": "增强膀胱健康，促进正常尿流。"
+        }
+      ]
+    },
+    "spo": {
+      "name": "锯棕榈油",
+      "description": "锯棕榈油是从锯齿棕(Serenoa repens)浆果中提取的天然脂溶性油，富含月桂酸、油酸等脂肪酸和植物甾醇。传统用于美洲原住民草药医学，现代研究显示其对男性健康和护发有益。",
+      "highlights": [
+        "锯齿棕浆果",
+        "脂溶性油",
+        "美洲原住民草药"
+      ],
+      "benefits": [
+        {
+          "title": "前列腺健康",
+          "description": "平衡激素，缓解良性前列腺增生(BPH)症状，改善尿流和减少频度。"
+        },
+        {
+          "title": "护发",
+          "description": "抑制5-α还原酶活性，减少二氢睾酮(DHT)产生，有助于管理雄激素性脱发。"
+        }
+      ]
+    },
+    "ua": {
+      "name": "尿石素A",
+      "description": "尿石素A是肠道微生物代谢石榴、坚果等食物中的鞣花单宁产生的天然化合物。作为一种强效线粒体自噬激活剂，具有高生物利用度，因其抗衰老和细胞再生潜力而被广泛研究。",
+      "highlights": [
+        "线粒体自噬激活剂",
+        "肠道微生物代谢物",
+        "细胞再生"
+      ],
+      "benefits": [
+        {
+          "title": "线粒体健康",
+          "description": "激活线粒体自噬清除功能异常线粒体，增强细胞能量代谢，延缓衰老。"
+        },
+        {
+          "title": "肌肉功能",
+          "description": "提高肌肉耐力和运动表现，减少年龄相关的肌肉衰退。"
+        },
+        {
+          "title": "抗炎抗氧化",
+          "description": "抑制炎症因子，中和自由基，减轻氧化应激。"
+        }
+      ]
+    },
+    "gt": {
+      "name": "谷胱甘肽",
+      "description": "谷胱甘肽是由谷氨酸、半胱氨酸和甘氨酸组成的三肽抗氧化剂，人体自然产生。作为\"抗氧化剂之王\"，它能中和自由基，再生其他抗氧化剂(如维生素C/E)，在解毒、免疫调节和细胞保护中起核心作用。",
+      "highlights": [
+        "抗氧化剂之王",
+        "三肽分子",
+        "内源性合成"
+      ],
+      "benefits": [
+        {
+          "title": "抗氧化防御",
+          "description": "清除自由基保护细胞免受氧化损伤，延缓衰老和慢性疾病。"
+        },
+        {
+          "title": "解毒支持",
+          "description": "结合毒素促进排泄，增强肝脏解毒能力，减少重金属或药物代谢物积累。"
+        },
+        {
+          "title": "免疫增强",
+          "description": "刺激淋巴细胞增殖，调节免疫反应，增强抗感染能力。"
+        },
+        {
+          "title": "皮肤健康",
+          "description": "抑制酪氨酸酶活性减少黑色素生成，提亮肤色，减轻光老化。"
+        }
+      ]
+    },
+    "specifications": {
+      "percentage": "纯度",
+      "state": "形态",
+      "packaging": "包装",
+      "source": "来源"
+    }
+  }
+}
+
+{/* contact */}
+{
+  "hero": {
+    "title": "Contact Us"
+  },
+  "companyInfo": {
+    "title": "How to Reach Us",
+    "address": {
+      "title": "Company Address:",
+      "line1": "Chaoyang District, Beijing",
+      "line2": "Shanghai, China"
+    },
+    "email": "contact@example.com"
+  },
+  "team": {
+    "title": "Business Team",
+    "subtitle": "Honesty, pragmatism, forge ahead, win-win cooperation",
+    "members": [
+      {
+        "name": "Yong Li",
+        "title": "[Commercial Director] [Sales Director] China",
+        "phone": "+86 15171721777",
+        "email": "liyong@maiggic.com"
+      },
+      {
+        "name": "Diana Ding",
+        "title": "[Sales Director] International",
+        "phone": "+86 18017375246",
+        "email": "diana@maiggic.com"
+      },
+      {
+        "name": "Harry BRÜGNER",
+        "title": "[Nucleotides Business Development] Europe/Americas",
+        "phone": "+41 79 348 71 22",
+        "email": "harry@maiggic.com"
+      },
+      {
+        "name": "Elaine Zhu",
+        "title": "[Nucleotides Business Development] Asia-Pacific",
+        "phone": "+86 17721334149",
+        "email": "elaine@maiggic.com"
+      }
+    ],
+    "labels": {
+      "phone": "Phone:",
+      "email": "E-mail:"
+    }
+  }
+}
+
+{/* common */}
+{
+  "header": {
+    "home": "Home",
+    "about": "About us",
+    "products": "Products",
+    "contact": "Contact",
+    "qa": "Q&A"
+  },
+  "language": {
+    "toggle": "中",
+    "current": "EN"
+  },
+
+  "footer": {
+    "contact": {
+      "email": "Email: contact@example.com",
+      "address": "Address: Chaoyang District, Beijing"
+    },
+    "right": {
+      "phone": "Phone: 0571-85502995",
+      "copyright": "© 2024 Company Name. All rights reserved."
+    }
+  }
+}

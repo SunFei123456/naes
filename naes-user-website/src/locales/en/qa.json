@@ -1,0 +1,111 @@
+{
+  "qa": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our products and services",
+    "searchPlaceholder": "Search questions...",
+    "viewAllQuestions": "View Questions",
+    "categoryNotFound": "Category Not Found",
+    "categoryNotFoundDesc": "Sorry, the category you are looking for does not exist.",
+    "questionNotFound": "Question Not Found",
+    "questionNotFoundDesc": "Sorry, the question you are looking for does not exist.",
+    "backToQa": "Back to Q&A",
+    "backToAllCategories": "Back to All Categories",
+    "backToCategory": "Back to",
+    "viewDetails": "View Details",
+    "relatedQuestions": "Related Questions",
+    "stillHaveQuestions": {
+      "title": "Still have questions?",
+      "description": "Can't find what you're looking for? Our team is here to help.",
+      "contactButton": "Contact Us"
+    },
+    "categories": [
+      {
+        "id": "product-fundamentals",
+        "name": "Product Fundamentals",
+        "description": "Product Fundamentals",
+        "questions": [
+          {
+            "id": "pqq-regulatory-status",
+            "question": "What is the regulatory status of PQQ in China? Is it approved for use in dietary supplement production?",
+            "answer": "PQQ was first approved as a Novel Food Ingredient by China's National Health Commission (NHC) in March 2022 (Announcement No.1, 2022). In October 2023, fermentation-derived PQQ received further approval, making both production methods (chemical and fermentation) fully compliant.\n\nFor dietary supplement applications, PQQ must adhere to specific usage guidelines and labeling requirements:\n- Usage Scope: Approved only for beverage-type dietary supplements, with a maximum dosage of 40mg/kg (for solid beverages, calculated based on reconstituted liquid weight).\n- Labeling Requirements: Products containing PQQ must include the warning: \"Not suitable for infants, pregnant women, and lactating mothers.\" The recommended daily intake should not exceed 20mg."
+          },
+          {
+            "id": "chemical-vs-fermentation-pqq",
+            "question": "What are the differences between chemically synthesized PQQ and fermentation-derived PQQ? Which type is more suitable for nutraceutical applications?",
+            "answer": "- Chemically synthesized PQQ is produced through multi-step organic reactions, with a purity ≥98%, but carries higher production costs.\n- Fermentation-derived PQQ is biosynthesized using Gluconobacter oxydans (approved in 2023), offering 30% lower production costs and better alignment with the natural ingredient trend.\n\nRecommendation for Nutraceutical Use:\n- Fermentation-derived PQQ is preferred for premium health products due to its absence of solvent residue risks.\n- Chemically synthesized PQQ remains a viable option for cost-sensitive products where ultra-high purity is prioritized."
+          }
+        ]
+      },
+      {
+        "id": "formulation-solutions",
+        "name": "Formulation Solutions",
+        "description": "Formulation Solutions",
+        "questions": [
+          {
+            "id": "pqq-combination-ratios",
+            "question": "How can PQQ be combined with other ingredients to enhance efficacy? What are the recommended ratios?",
+            "answer": "PQQ formulations should be goal-oriented. Below are clinically validated synergistic systems:\n\nTarget Benefit\tRecommended Combo\tRatio (by weight)\tMechanism of Action\nBrain Health\tPS (Phosphatidylserine) + NMN\tPQQ：PS：NMN=1：5：10\t↑ Mitochondrial function & neuronal activity\nBeauty-from-Within\tErgothioneine (ET)\tPQQ：ET=1-6：0.5-6\tTyrosinase inhibition & Antioxidant (↑37% skin elasticity in trials)\nLongevity & Energy\tCoQ10 + Resveratrol\tPQQ：Q10=1：8\tSIRT1 pathway activation →cellular lifespan extension"
+          },
+          {
+            "id": "pqq-stability-formulations",
+            "question": "How to Ensure PQQ Stability in Solid Beverages and Tablets?",
+            "answer": "PQQ requires formulation-specific stabilization strategies for different delivery formats:\n\n1. Solid Beverages\n- Key Challenge: Moisture/Thermal Degradation\n- Solutions:\n  - Use cyclodextrin encapsulation to shield PQQ from oxidation\n  - Control moisture content ≤5% (critical for powder stability)\n  - Rehydration temperature ≤70°C (prevents thermal breakdown)\n\n2. Tablets/Candy Pressing\n- Key Challenge: Compression Heat/pH Sensitivity\n- Solutions:\n  - Microencapsulated PQQ powder (thermal resistance up to 80°C)\n  - Add pH buffer (citric acid) to maintain pH 5.0-6.5 (optimal stability window)\n\n3. Liquid Formulations\n- Key Challenge: Hydrolysis/Sterilization Damage\n- Solutions:\n  - Use PQQ disodium salt (water solubility >50mg/mL)\n  - Post-addition process (bypasses UHT sterilization degradation)"
+          }
+        ]
+      },
+      {
+        "id": "efficacy-mechanism",
+        "name": "Efficacy & Mechanism",
+        "description": "Efficacy & Mechanism",
+        "questions": [
+          {
+            "id": "pqq-anti-aging-mechanism",
+            "question": "Is PQQ's anti-aging mechanism clinically validated?",
+            "answer": "PQQ combats aging through three synergistic pathways:\nA[↑SIRT1/3/6 activity] →B[Enhanced mitochondrial biogenesis]→E[↑ATP production (cellular energy)];\nA[↑SIRT1/3/6 activity] →C[ROS scavenging]→D[↓DNA damage]\n\nClinical Evidence:\nDosage: 20 mg/day for 8 weeks\nResults:\n  -↑37% cognitive scores in middle-aged/elderly subjects\n  -↑25% skin collagen synthesis"
+          }
+        ]
+      },
+      {
+        "id": "safety-side-effects",
+        "name": "Safety & Side Effects",
+        "description": "Safety & Side Effects",
+        "questions": [
+          {
+            "id": "pqq-contraindications",
+            "question": "Are there any contraindications or drug interactions for PQQ?",
+            "answer": "The following populations require strict avoidance or cautious use:\n\nAbsolute Contraindications:\n- Pregnant/lactating women\n- Children (<14 years old)\n- Heart failure patients (may increase cardiac workload)\n\nPrecautionary Groups:\n- Gastric ulcer patients (potential gastric mucosa irritation)\n- Those on anticoagulants (e.g.warfarin, may affect coagulation)\n\nApproved Daily Intake:\n- China: ≤20 mg/day\n- USA: Up to 240 mg/60 kg body weight"
+          }
+        ]
+      },
+      {
+        "id": "application-solutions",
+        "name": "Application Solutions",
+        "description": "Application Solutions",
+        "questions": [
+          {
+            "id": "pqq-beverage-development",
+            "question": "How to overcome technical challenges when developing PQQ-functional beverages?",
+            "answer": "Challenge\tRecommended Solution\tTechnical Benefit\nPrecipitation\tUse PQQ disodium salt + 0.1% cyclodextrin encapsulation\t↑Solubility\nFlavor Masking\tBlend with 0.5% citrus polyphenols/blueberry extract\tNeutralizes metallic aftertaste\nThermal Degradation\tApply post-sterilization (≤135°C/15sec)\tRetention rate >95%"
+          },
+          {
+            "id": "pqq-topical-applications",
+            "question": "Can PQQ be used in topical skincare products?",
+            "answer": "PQQ active ingredient can be utilized in anti-aging skincare products (e.g., serums, emulsions) by scavenging free radicals and inhibiting MMP-1 enzyme to protect collagen.\n\nFormulation Example:\n  DHC PQQ Essence(Japan):\n    - 0.1% PQQ + Hyaluronic Acid\n    - Clinically proven:↑42% skin hydration"
+          }
+        ]
+      },
+      {
+        "id": "market-trends-data",
+        "name": "Market Trends & Data",
+        "description": "Market Trends & Data",
+        "questions": [
+          {
+            "id": "pqq-market-trends",
+            "question": "What are the global price trends and production capacity for PQQ?",
+            "answer": "2025 Market Insights:\n\n1. Pricing Dynamics\n- Fermentation-derived PQQ: ¥12,000-15,000/kg (post-industrial scale-up)\n- Chemically synthesized PQQ: ≥¥20,000/kg\n\n2. Production Landscape\n-China dominates 70% of global fermentation capacity (Key producers: Shanghai Shokai Biotech, Kingdomway Nutrition) , with monthly output≥500 kg.\n\n3. Demand Segmentation\n- Brain health: 62%\n- Anti-aging & beauty: 28%\n- Sports nutrition: 10%"
+          }
+        ]
+      }
+    ]
+  }
+}

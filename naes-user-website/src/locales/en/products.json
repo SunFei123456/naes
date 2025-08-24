@@ -1,0 +1,554 @@
+{
+  "hero": {
+    "title": "Our Products"
+  },
+  "list": {
+    "learnMore": "Learn More"
+  },
+  "detail": {
+    "highlights": "Product Highlights",
+    "primary_source": "Primary Source",
+    "benefits": "Health Benefits",
+    "specifications": "Specifications",
+    "percentage": "Purity",
+    "state": "Form",
+    "packaging": "Packaging",
+    "source": "Source",
+    "cas_number": "CAS Number:",
+    "specification": "Specification:",
+    "appearance": "Appearance:",
+    "molecular_formula": "Molecular Formula:",
+    "solubility": "Solubility:",
+    "package": "Packaging:",
+    "minimum_order": "Minimum Order:",
+    "sample": "Sample:",
+    "certificate": "Certification:",
+    "product_specification_table": "Product Specification Table",
+    "heavy_metals_test_table": "Heavy Metals Test Results",
+    "microorganism_test_table": "Microorganism Test Results",
+    "item": "Item",
+    "standard": "Standard",
+    "result": "Result",
+    "test_result": "Test Result",
+    "heavy_metal_content": "Heavy Metal Content",
+    "heavy_metal_test": "Heavy Metal Test",
+    "microorganism": "Microorganism",
+    "inquire_now": "Inquire Now",
+    "next_product": "Next Product",
+    "applications": "Applications",
+    "analysis_report": "Analysis Report",
+    "lecithin_content": "Lecithin Content (%)",
+    "acetone_insolubles": "Acetone Insolubles (%)",
+    "appearance_20": "White to pale yellow powder",
+    "appearance_25": "Pale yellow powder",
+    "appearance_35": "Pale yellow powder",
+    "appearance_50": "Yellow to brownish-yellow solid",
+    "appearance_60": "Yellow to brownish-yellow solid"
+  },
+  "products": {
+    "pc": {
+      "name": "Phosphatidylcholine (PC)",
+      "description": "Phosphatidylcholine (1,2-diacyl-sn-glycero-3-phosphocholine) is an amphiphilic molecule composed of a hydrophilic head group and hydrophobic tails, classified as a phospholipid with a choline moiety in its head group. It is extracted through mechanical processing or hexane extraction from natural sources such as egg yolk and soybeans. As one of the primary structural components of cell membranes, phosphatidylcholine (PC) is abundantly present in soybeans, egg yolks, animal livers, and fish. Being the most abundant phospholipid in the human body, it serves not only as a crucial maintainer of cell membrane structure and fluidity but also participates in lipid metabolism, neural signal transduction, and liver function regulation. It is acclaimed as both the \"architect of cell membranes\" and \"guardian of liver health.\"",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Promoting Liver Health",
+          "description": "Phosphatidylcholine can prevent and improve fatty liver: it helps break down liver fat, promotes lipid metabolism, and protects hepatocytes: reduces liver damage caused by alcohol and drugs. Phosphatidylcholine is clinically used as an adjunct therapy for fatty liver and cirrhosis."
+        },
+        {
+          "title": "Supporting Brain Function",
+          "description": "Phosphatidylcholine can be converted into acetylcholine (an important neurotransmitter), affecting memory and learning ability. It improves cognitive function, and long-term supplementation with phosphatidylcholine may delay age-related cognitive decline."
+        },
+        {
+          "title": "Regulating Lipid Metabolism",
+          "description": "Phosphatidylcholine helps lower cholesterol: promotes the metabolism of low-density lipoprotein (LDL, \"bad\" cholesterol), and can reduce lipid deposition in blood vessel walls, protecting cardiovascular health."
+        },
+        {
+          "title": "Digestive System Health",
+          "description": "Phosphatidylcholine helps break down fats and promotes the absorption of fat-soluble vitamins (A, D, E, K). It can also improve intestinal health, maintain the intestinal mucosal barrier, and reduce inflammation."
+        },
+        {
+          "title": "Antioxidant and Anti-Aging Effects",
+          "description": "PC can reduce free radical damage to cells, delay aging, and protect skin cells while enhancing the skin barrier function."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Food Industry",
+          "description": "As an emulsifier and solubilizer, phosphatidylcholine can help mix oil and water, commonly used in the food industry, such as in chocolate, salad dressings, and baked goods."
+        },
+        {
+          "title": "Pharmaceutical Field",
+          "description": "Phosphatidylcholine can be used as an adjunct treatment for fatty liver."
+        },
+        {
+          "title": "Healthcare Products",
+          "description": "Phosphatidylcholine can help protect the liver and metabolize fats."
+        }
+      ],
+      "details": {
+        "cas_number": "8002-43-5, 97281-47-5",
+        "specification": "20%, 25%, 35%, 50%, 60%",
+        "appearance": "White to pale yellow powder",
+        "molecular_formula": "C42H80NO8P",
+        "solubility": "Chloroform: 0.1 g/mL (slightly turbid, pale yellow to deep orange solution)",
+        "certificate": "ISO 9001"
+      }
+    },
+    "bh": {
+      "name": "Berberine Hydrochloride",
+      "description": "Berberine hydrochloride is an organic compound with the chemical formula C20H18ClNO4. It appears as a yellow crystalline powder that is readily soluble in boiling water, slightly soluble in cold water, and practically insoluble in cold ethanol, chloroform, and ether. As a naturally occurring alkaloid extracted from medicinal plants such as Coptis chinensis (goldthread) and Phellodendron amurense (Amur cork tree), berberine hydrochloride exhibits broad-spectrum biological activity. Traditionally used in herbal medicine for treating gastrointestinal infections and inflammation, modern research has further validated its potential benefits for various health applications.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Antibacterial and Anti-inflammatory Effects",
+          "description": "Berberine hydrochloride demonstrates broad-spectrum antibacterial activity, showing significant inhibitory effects against various Gram-positive and Gram-negative bacteria. It can inhibit Helicobacter pylori growth, thereby assisting in the treatment of gastritis and gastric ulcers. By suppressing the release of inflammatory factors such as prostaglandins and interleukins, it helps alleviate intestinal and systemic inflammation."
+        },
+        {
+          "title": "Digestive System Protection",
+          "description": "Berberine hydrochloride inhibits excessive contraction of intestinal smooth muscles, slowing peristalsis to prolong food retention time and promote water absorption, thus relieving diarrhea. It regulates intestinal flora balance by inhibiting harmful bacteria (e.g., Salmonella) while promoting the growth of beneficial bacteria."
+        },
+        {
+          "title": "Cardiovascular Protection",
+          "description": "Berberine hydrochloride can reduce total cholesterol, triglycerides, and low-density lipoprotein (LDL) levels in the blood by inhibiting lipid absorption and deposition, thereby helping prevent atherosclerosis. Additionally, it mildly lowers blood pressure through vasodilation and suppression of the renin-angiotensin system."
+        },
+        {
+          "title": "Metabolic Regulation",
+          "description": "Berberine hydrochloride enhances insulin sensitivity and activates the AMPK signaling pathway, promoting cellular glucose uptake and utilization while increasing glycogen synthesis. This makes it beneficial for blood sugar control in type 2 diabetes. It may also reduce lipid accumulation by modulating the activity of fat-metabolizing enzymes."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Pharmaceutical Applications",
+          "description": "Berberine hydrochloride is extensively used to treat metabolic diseases and digestive system disorders, while also being developed and applied in adjuvant cancer therapy and neuroprotection."
+        }
+      ],
+      "details": {
+        "cas_number": "633-65-8",
+        "specification": "Berberine Hydrochloride 97%/98% HPLC",
+        "appearance": "Light yellow crystalline powder",
+        "molecular_formula": "C20H18ClNO4",
+        "solubility": "Soluble in water, insoluble in benzene, ether and chloroform",
+        "package": "1kg/aluminum foil bag, or 25kg/drum",
+        "certificate": "ISO 9001"
+      }
+    },
+    "nmn": {
+      "name": "β-Nicotinamide Mononucleotide (NMN)",
+      "description": "β-Nicotinamide Mononucleotide (NMN), also known as Nicotinamide Mononucleotide, is a water-soluble compound with the chemical formula C11H15N2O8P. It appears as a white to off-white crystalline powder with no distinct odor. This compound demonstrates excellent water solubility while being insoluble in acetone and ethanol. For optimal preservation, the material requires protection from light and moisture at ambient temperature conditions, maintaining stability for 24 months. The substance exhibits weak acidity with pH values ranging between 3-4. NMN finds extensive applications as a raw material in pharmaceuticals, healthcare products, cosmetics, and food additives. Industrial production methods include both chemical synthesis and enzymatic approaches. As the direct precursor to Nicotinamide Adenine Dinucleotide (NAD+), NMN naturally occurs in foods such as broccoli and avocados. Serving as a crucial molecule in cellular energy metabolism, NMN elevates endogenous NAD+ levels to participate in regulating cellular repair, energy production, and anti-aging processes. In recent years, it has become a major focus in anti-aging research.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Anti-Aging Effects",
+          "description": "As a direct precursor to NAD+, NMN elevates cellular NAD+ levels to activate Sirtuins (NAD+-dependent longevity proteins), enhancing DNA repair mechanisms and decelerating aging processes."
+        },
+        {
+          "title": "Sleep Quality Improvement",
+          "description": "NMN regulates circadian rhythm function by modulating NAD+-dependent CLOCK genes, effectively addressing insomnia and premature awakening while promoting deeper sleep cycles."
+        },
+        {
+          "title": "Enhanced Energy",
+          "description": "By optimizing mitochondrial function, NMN boosts cellular energy metabolism, helping to alleviate fatigue - particularly beneficial for professionals and athletes."
+        },
+        {
+          "title": "Immune Support",
+          "description": "NMN increases macrophage activity and strengthens immune system function, making it suitable for seniors and immunocompromised individuals."
+        },
+        {
+          "title": "Cardiovascular & Neuroprotection",
+          "description": "NMN supports vascular health, improves cognitive function, and may reduce risks of neurodegenerative diseases."
+        },
+        {
+          "title": "Metabolic Improvement",
+          "description": "NMN helps regulate blood sugar and insulin sensitivity, offering benefits for those with metabolic syndrome."
+        },
+        {
+          "title": "Skin Rejuvenation",
+          "description": "By stimulating collagen production and providing antioxidant effects, NMN improves skin condition and reduces wrinkles, appealing to beauty-conscious consumers."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Nutraceutical Ingredient",
+          "description": "As an endogenous substance, NMN offers high safety as a dietary supplement with demonstrated anti-aging effects at the molecular level."
+        },
+        {
+          "title": "Cosmetic Ingredient",
+          "description": "Beyond traditional supplements, NMN shows growing potential in medical and cosmetic applications. NMN-infused skincare products effectively address signs of aging and enhance skin health."
+        }
+      ],
+      "details": {
+        "cas_number": "1094-61-7",
+        "specification": "NMN 99% HPLC",
+        "appearance": "White to off-white crystalline powder",
+        "molecular_formula": "C11H15N2O8P",
+        "solubility": "Soluble in water, insoluble in acetone and ethanol",
+        "package": "1kg/aluminum foil bag, or 25kg/drum",
+        "certificate": "ISO 9001"
+      }
+    },
+    "pqq": {
+      "name": "Pyrroloquinoline Quinone Disodium Salt (PQQ)",
+      "description": "Pyrroloquinoline quinone (abbreviated as PQQ) is an aromatic ortho-quinone compound with the chemical formula C14H6N2O8 and a molecular weight of 330.206. It appears as a reddish-brown powder and is readily soluble in water. Industrially, PQQ is typically produced through chemical synthesis or microbial fermentation. Pyrroloquinoline quinone disodium salt (PQQ) is a water-soluble redox coenzyme naturally found in soil microorganisms, certain plants (e.g., kiwifruit, green peppers), and fermented foods. As a key regulator of mitochondrial function, PQQ stimulates mitochondrial biogenesis, scavenges free radicals, and plays vital roles in cellular energy metabolism and antioxidant defense, earning it the reputation as a \"next-generation antioxidant.\" Pyrroloquinoline quinone disodium salt (PQQ) is currently applied in various fields: Animal Production: Enhances growth and reproductive performance in mammals and regulates lipid metabolism in poultry. Pharmaceuticals: Shows significant potential for preventing and treating neurodegenerative diseases, physical injuries, and obesity-related disorders. Agriculture: Increases microbial populations in soil, boosts available phosphorus content, and elevates plant chlorophyll levels to promote crop growth.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Antioxidant Activity",
+          "description": "PQQ demonstrates superior antioxidant capacity compared to conventional vitamins, effectively neutralizing reactive oxygen species (ROS) to protect cellular membranes, proteins, and DNA from oxidative damage."
+        },
+        {
+          "title": "Anti-inflammatory Effects",
+          "description": "By reducing pro-inflammatory cytokines (eg., IL-6, TNF-α), PQQ mitigates chronic inflammation, showing preventive potential for cardiovascular and neurodegenerative diseases."
+        },
+        {
+          "title": "Mitochondrial Optimization",
+          "description": "Enhances mitochondrial biogenesis via PGC-1α pathway activation, increasing mitochondrial density and activity to boost ATP production, thereby improving fatigue resistance and exercise endurance."
+        },
+        {
+          "title": "Anti-aging Properties",
+          "description": "Synergizes with NAD+ precursors (e.g., NMN) to activate longevity proteins Sirtuins (SIRT1/3/6), delaying cellular senescence and optimizing metabolic functions."
+        },
+        {
+          "title": "Metabolic Enhancement",
+          "description": "Accelerates toxin elimination, supports hepatic detoxification, and may aid weight management through lipid metabolism regulation."
+        },
+        {
+          "title": "Neuroprotection",
+          "description": "Crosses the blood-brain barrier to stimulate nerve growth factor (NGF) production, repairing damaged neurons and alleviating neurasthenia, insomnia, and related symptoms."
+        },
+        {
+          "title": "Cognitive Preservation",
+          "description": "Inhibits β-amyloid deposition (Alzheimer's pathology), reduces hypoxia/glucose-deprivation induced neuronal damage, and enhances short-term memory and cognitive flexibility."
+        },
+        {
+          "title": "Organ Protection",
+          "description": "Significantly reduces toxin-induced liver damage (alcohol, CCl4) and fibrosis. Improves endothelial function and prevents atherosclerotic progression."
+        },
+        {
+          "title": "Immune Modulation",
+          "description": "Activates T-lymphocytes, macrophages, and NK cells while promoting immunoglobulin secretion for comprehensive immune enhancement."
+        }
+      ],
+      "applications": [
+        {
+          "title": "PQQ Supplements",
+          "description": "Primarily targeting brain health, sleep improvement, energy enhancement, oral beauty, and fertility support, PQQ is often combined with other active ingredients such as NMN, coenzyme Q10, ginkgo biloba extract, and phosphatidylserine (PS) for synergistic effects."
+        },
+        {
+          "title": "Food Applications",
+          "description": "United States: Classified as GRAS (Generally Recognized As Safe), PQQ is permitted in energy drinks, sports drinks, and electrolyte beverages. EU & Canada: Approved as a dietary supplement or natural health product. China: Officially approved as a Novel Food Ingredient (March 1, 2022)."
+        },
+        {
+          "title": "Cosmetic Applications",
+          "description": "PQQ exhibits significant potential in anti-wrinkle and skin-brightening formulations, leveraging its antioxidant and collagen-stimulating properties."
+        }
+      ],
+      "details": {
+        "cas_number": "122628-50-6",
+        "specification": "98%",
+        "appearance": "Reddish-brown powder",
+        "molecular_formula": "C14H4N2Na2O8",
+        "solubility": "Soluble in water and methanol",
+        "package": "1kg/aluminum foil bag, or 25kg/drum",
+        "certificate": "ISO 9001"
+      }
+    },
+    "rt": {
+      "name": "Resveratrol",
+      "description": "Resveratrol (chemical name: 3,5,4'-trihydroxystilbene) is a stilbenoid polyphenol compound with the molecular formula C14H12O3 (molecular weight:228.24). It appears as white needle-like crystals and functions as a phytoalexin — a protective compound produced by plants in response to stress. Initially isolated from the roots of Veratrum species (North American plants), it derives its name from this source. As a naturally occurring polyphenol, resveratrol is abundant in grape skins, red wine blueberries and peanuts. Resveratrol exhibits remarkable biological activities, demonstrating pharmacological effects including antitumor properties, cardiovascular protection, antioxidant activity, antibacterial and antiviral actions, hepatoprotection, anti-inflammatory effects, and immune modulation. It is also utilized as a dietary supplement for health maintenance and disease prevention.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Cardiovascular Protection",
+          "description": "Resveratrol promotes endothelial nitric oxide (NO) release, inducing vasodilation and reducing blood pressure. Clinical studies show 250mg daily intake improves vascular elasticity by 15%. It prevents LDL oxidation, reduces thrombosis risk, and inhibits atherosclerosis progression."
+        },
+        {
+          "title": "Antitumor & Cancer Prevention",
+          "description": "Resveratrol suppresses cancer cells at initiation, promotion, and metastasis stages by: Cell cycle arrest, Apoptosis induction, Metastasis inhibition. Effective against gastric/liver cancers and leukemia. Additionally, it alleviates chemotherapy side effects (nausea, alopecia) and improves treatment tolerance."
+        },
+        {
+          "title": "Metabolic Regulation & Anti-Obesity",
+          "description": "Enhances insulin sensitivity, reducing HbA1c in diabetics. Inhibits adipocyte differentiation, aiding weight management. Mimics caloric restriction for longevity benefits."
+        },
+        {
+          "title": "Neuroprotection & Cognitive Improvement",
+          "description": "Reduces β-amyloid deposition, improving cognition in mild-to-moderate Alzheimer's patients. Minimizes post-stroke brain damage via neuroprotective mechanisms."
+        },
+        {
+          "title": "Antioxidant & Anti-inflammatory Effects",
+          "description": "Neutralizes superoxide anions and hydroxyl radicals to protect DNA/cells. Lowers IL-6/VEGF levels, alleviating arthritis and ulcerative colitis."
+        },
+        {
+          "title": "Additional Benefits",
+          "description": "Ocular Health: Inhibits VEGF to delay age-related macular degeneration. Anti-Aging & Skincare: Stimulates collagen synthesis, reduces wrinkles/age spots, and accelerates skin repair. Antimicrobial: Active against S. aureus and herpes simplex virus."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Skincare",
+          "description": "Revolutionizes sensitive skin brightening and anti-aging. Potently inhibits tyrosinas to block melanogenesis at the source."
+        },
+        {
+          "title": "Nutraceuticals",
+          "description": "Functional foods/beverages for: cardiovascular support, Alzheimer's prevention, blood glucose management, systemic inflammation control, etc."
+        }
+      ],
+      "details": {
+        "cas_number": "22628-50-6",
+        "specification": "5%-99%",
+        "appearance": "White to pale yellow powder",
+        "molecular_formula": "C14H12O3",
+        "solubility": "Poorly soluble in water; readily soluble in organic solvents (ether, methanol, ethyl acetate)",
+        "package": "1 kg/bag or 25 kg/drum",
+        "certificate": "ISO 9001"
+      }
+    },
+    "et": {
+      "name": "Ergothioneine (EGT)",
+      "description": "Ergothioneine (2-mercapto-L-histidine betaine, EGT) is a compound first discovered in 1909 from ergot fungus. In its pure form, it appears as white crystals that are readily soluble in water and resistant to auto-oxidation at physiological pH and in strong alkaline solutions. Ergothioneine (EGT) is a natural sulfur-containing amino acid antioxidant that was listed by the journal Nature as one of the candidate substances for \"longevity vitamins\". It is primarily found in mushrooms (such as porcini), oats, rye, and animal liver and kidneys. Its unique molecular structure gives it exceptional antioxidant stability, enabling multiple physiological functions including free radical scavenging, detoxification, maintaining DNA biosynthesis, supporting normal cell growth, and modulating cellular immunity.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Antioxidant Effects",
+          "description": "Ergothioneine is transported by the specific OCTN1 transporter to target mitochondria and nuclei - areas prone to oxidative damage - where it scavenges reactive oxygen species (ROS) without generating free radicals during the process."
+        },
+        {
+          "title": "Anti-inflammatory and Immunomodulatory Effects",
+          "description": "Ergothioneine inhibits the NLRP3 inflammasome, blocking the release of pro-inflammatory cytokines like IL-1β and IL-18, showing potential for improving chronic inflammatory conditions such as rheumatoid arthritis and enteritis."
+        },
+        {
+          "title": "Neuroprotection",
+          "description": "Ergothioneine combats cognitive decline by efficiently crossing the blood-brain barrier via OCTN1 transporters. Clinical studies reveal a positive correlation between blood ergothioneine levels and cognitive scores in elderly populations. It also reduces β-amyloid (Aβ) deposition, lowering Alzheimer's disease risk."
+        },
+        {
+          "title": "Cardiovascular Protection",
+          "description": "Ergothioneine enhances nitric oxide (NO) bioavailability to improve vasodilation while inhibiting LDL oxidation to prevent foam cell formation and atherosclerosis."
+        },
+        {
+          "title": "Radiation Protection and DNA Repair",
+          "description": "Ergothioneine safeguards hematopoietic stem cells from ionizing radiation damage and promotes clearance of 8-oxoguanine (8-oxoG) to maintain genomic stability."
+        },
+        {
+          "title": "Metabolic Regulation and Anti-fatigue",
+          "description": "By enhancing mitochondrial function, ergothioneine boosts ATP production efficiency and extends exercise endurance."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Skincare Products",
+          "description": "Ergothioneine is particularly prominent in premium skincare formulations for its antioxidant, anti-aging, and skin-brightening effects."
+        },
+        {
+          "title": "Dietary Supplements",
+          "description": "Oral ergothioneine supplementation demonstrates excellent efficacy in anti-aging, liver protection, and energy improvement."
+        },
+        {
+          "title": "Medical Health",
+          "description": "Clinical validation exists for ergothioneine's applications in ophthalmology and liver health."
+        }
+      ],
+      "details": {
+        "cas_number": "497-30-3",
+        "specification": "99%",
+        "appearance": "White powder",
+        "molecular_formula": "C9H15N3O2S",
+        "solubility": "Freely soluble in water",
+        "package": "1 kg/bag or 25 kg/drum",
+        "certificate": "ISO 9001"
+      }
+    },
+    "ps": {
+      "name": "Phosphatidylserine (PS)",
+      "description": "Phosphatidylserine is an essential membrane phospholipid with the chemical formula C42H82NO10P (molecular weight: 792.1 g/mol), appearing as a white waxy solid. It is produced via solvent extraction, chemical synthesis, or enzymatic conversion, and is approved as a novel food ingredient with broad applications in pharmaceuticals and functional foods. Naturally present in cell membranes (particularly brain cells), PS is primarily derived from soybeans, cabbage, animal brain tissues and fish. As a key structural component of the brain, PS regulates neurotransmission, membrane fluidity, and neurotransmitter release. Recognized as \"nutrient for brain cell membranes\", it is widely used in cognitive health and anti-aging formulations.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Cognitive Function Improvement",
+          "description": "Phosphatidylserine enhances memory, improves learning ability, delays age-related cognitive decline, and helps prevent Alzheimer's disease. It also promotes brain development in children, alleviates ADHD symptoms, increases focus, and reduces mental fatigue."
+        },
+        {
+          "title": "Stress Relief and Mood Regulation",
+          "description": "Phosphatidylserine lowers cortisol levels (the stress hormone), reduces anxiety and depression, improves emotional balance, enhances stress resistance, and improves sleep quality by reducing insomnia."
+        },
+        {
+          "title": "Exercise Performance and Recovery",
+          "description": "Phosphatidylserine reduces post-exercise muscle soreness, accelerates recovery, increases endurance, delays fatigue, and helps regulate hormonal balance (lowering cortisol and increasing testosterone). It also protects muscle cells and reduces oxidative damage."
+        },
+        {
+          "title": "Antioxidant and Cardiovascular Protection",
+          "description": "Phosphatidylserine scavenges free radicals, delays cellular aging, lowers cholesterol, improves blood circulation, protects vascular health, and prevents atherosclerosis."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Dietary Supplements",
+          "description": "For elderly adults: Improves memory. For students and office workers: Enhances concentration."
+        },
+        {
+          "title": "Cosmetics",
+          "description": "Reduces wrinkles and improves skin elasticity. Repairs damaged skin barriers, soothes sensitive skin, and enhances moisture retention."
+        },
+        {
+          "title": "Pharmaceuticals",
+          "description": "Used as an adjunct therapy for neurodegenerative diseases."
+        }
+      ],
+      "details": {
+        "cas_number": "51446-62-9",
+        "specification": "20%, 50%, 70% (from Soy); 60% (from Sunflower seed)",
+        "appearance": "White to pale yellow powder",
+        "molecular_formula": "C42H82NO10P",
+        "solubility": "Soluble in most non-polar solvents with trace water; insoluble in anhydrous acetone",
+        "package": "1 kg/bag or 25 kg/drum",
+        "certificate": "ISO 9001"
+      }
+    },
+    "spe": {
+      "name": "Saw Palmetto Extract",
+      "description": "Saw Palmetto Extract is a powdered substance derived from the fruits of Saw Palmetto (Serenoa repens), native to tropical regions of the Americas. It is produced through supercritical extraction of oils followed by β-cyclodextrin encapsulation technology. The main active components are unsaturated fatty acids such as oleic acid and linoleic acid (content 25%-45%), detected by gas chromatography. Clinically used as adjuvant therapy for prostate hyperplasia and related urinary system diseases, it has anti-inflammatory, antibacterial, and diuretic effects.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Prostate and Urinary System Health",
+          "description": "Saw Palmetto Extract inhibits 5α-reductase and regulates androgen metabolism. Free fatty acids (such as lauric acid and oleic acid) in Saw Palmetto can effectively inhibit 5α-reductase activity, reduce dihydrotestosterone (DHT) levels, thereby alleviating benign prostatic hyperplasia (BPH) and related lower urinary tract symptoms (such as urinary frequency, urgency, and nocturia)."
+        },
+        {
+          "title": "Anti-inflammatory and Antioxidant Effects",
+          "description": "Plant sterols (such as sitosterol) can inhibit the release of inflammatory factors in prostate tissue and relax bladder neck smooth muscle, improving urodynamic parameters. Saw Palmetto Extract regulates the cyclooxygenase/lipoxygenase pathway, inhibits the production of pro-inflammatory mediators (such as leukotrienes), and reduces tissue inflammatory responses."
+        },
+        {
+          "title": "Hormonal Balance and Multi-system Regulation",
+          "description": "The core component sitosterol in Saw Palmetto Extract can bind to nuclear estrogen receptors (such as PGR, NCOA1/2), regulate sex hormone balance, and has potential intervention value for male erectile function and female hormone-related diseases."
+        },
+        {
+          "title": "Anti-cancer Potential",
+          "description": "Polysaccharide components (such as JYZ-2) isolated from Saw Palmetto Extract show anti-prostate cancer and ovarian cancer activity in in vitro studies, with mechanisms involving inducing cancer cell cycle arrest (G0/G1 phase) and inhibiting proliferation."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Dietary Supplements",
+          "description": "Saw Palmetto Extract focuses on prostate support, urinary health, and hormonal balance. Some supplements use Saw Palmetto + combination strategies to achieve better efficacy."
+        },
+        {
+          "title": "Medical Field",
+          "description": "Saw Palmetto Extract is mainly used for ulcerative colitis (UC) treatment and adjuvant therapy for prostate cancer."
+        }
+      ],
+      "details": {
+        "cas_number": "84604-15-9",
+        "specification": "25% Fatty Acid, 45% Fatty Acid",
+        "appearance": "Off-white powder",
+        "molecular_formula": "C6H3C12NO3",
+        "solubility": "Soluble in oils and organic solvents",
+        "package": "1kg/bag, 25kg/drum",
+        "certificate": "ISO9001"
+      }
+    },
+  
+    "ua": {
+      "name": "Urolithin A",
+      "description": "Urolithin A (English: Urolithin A, abbreviation Uro-A) is one of the urolithin isomers with the molecular formula C13H8O4. Urolithin A is a natural compound produced by gut microbiota through metabolism of ellagitannins (found in pomegranates, nuts and other foods). Recent studies have confirmed the positive effects of Urolithin A on aging and age-related diseases. It can improve mitochondrial function by clearing damaged mitochondria from cells and promoting the growth of healthy mitochondria. Urolithin A is classified as a mitophagy activator. With high bioavailability and potential anti-aging and cell vitality-enhancing properties, it has become a research hotspot in the health field in recent years.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Anti-Aging and Mitochondrial Repair",
+          "description": "UA is the first natural substance proven to activate mitophagy, clearing aged or damaged mitochondria and promoting new mitochondrial generation, thereby improving cellular energy metabolism and delaying aging."
+        },
+        {
+          "title": "Muscle Health Improvement",
+          "description": "Clinical studies show that UA supplementation in individuals aged 40-64 increases muscle strength by 12% and enhances exercise performance, helping to mitigate age-related muscle loss."
+        },
+        {
+          "title": "Neuroprotective Effects",
+          "description": "UA inhibits neuroinflammation, reduces oxidative stress, improves Parkinson's disease (PD)-related cognitive impairment, and enhances synaptic plasticity."
+        },
+        {
+          "title": "Skin Anti-Aging",
+          "description": "UA promotes collagen synthesis and reduces UV-induced damage and glycation aging. Skincare products containing 1% UA can improve wrinkles and enhance skin elasticity within two weeks."
+        },
+        {
+          "title": "Metabolic Regulation",
+          "description": "UA activates brown fat, reduces white fat accumulation, and improves obesity and metabolic syndrome."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Healthcare Products",
+          "description": "As a dietary supplement, UA is classified as GRAS (Generally Recognized as Safe) by the U.S. FDA, with a recommended dosage of 250–1000 mg/day. Marketed products target anti-aging, muscle enhancement, and metabolic health."
+        },
+        {
+          "title": "Cosmetics",
+          "description": "UA completed new cosmetic ingredient registration in China in 2023 for use in wrinkle-reducing products (maximum concentration: 1%)."
+        },
+        {
+          "title": "Pharmaceutical Research",
+          "description": "UA shows potential as an adjunct therapy for neurodegenerative diseases, with preclinical studies supporting its use in Parkinson's and Alzheimer's diseases."
+        },
+        {
+          "title": "Food and Functional Beverages",
+          "description": "UA precursors (e.g., pomegranate extract) can be added to foods to stimulate gut microbiota-derived UA production."
+        }
+      ],
+      "details": {
+        "cas_number": "1143-70-0",
+        "specification": "HPLC≥98%",
+        "appearance": "Light yellow to light gray powder",
+        "molecular_formula": "C13H8O4",
+        "solubility": "Soluble in strongly polar organic solvents such as dimethyl sulfoxide (DMSO)",
+        "package": "1kg/bag, 25kg/drum",
+        "certificate": "ISO9001"
+      }
+    },
+    "gt": {
+      "name": "Reduced Glutathione L-GSH",
+      "description": "Glutathione is a tripeptide compound composed of glutamate, cysteine, and glycine, serving as a potent endogenous antioxidant in the human body. Recognized as the \"master antioxidant\", it maintains redox balance by neutralizing free radicals and regenerating other antioxidant molecules (e.g., vitamins C/E). It plays pivotal roles in detoxification, immune modulation, and cellular protection.",
+      "highlights": [],
+      "benefits": [
+        {
+          "title": "Potent Antioxidant Effects",
+          "description": "Reduced glutathione directly scavenges reactive oxygen species (ROS) and peroxides, protecting cells from oxidative damage. It also regenerates other antioxidants (e.g., vitamins C and E), maintaining the recycling of the antioxidant system."
+        },
+        {
+          "title": "Detoxification",
+          "description": "Reduced glutathione binds to heavy metals (lead, mercury, arsenic, etc.) and toxins, promoting their excretion via bile or urine. In the liver, it participates in Phase II detoxification, aiding in the metabolism of drugs, alcohol, and environmental pollutants."
+        },
+        {
+          "title": "Immune Enhancement",
+          "description": "Reduced glutathione helps regulate lymphocyte function, promotes immune cell proliferation, and enhances antiviral and anti-infection capabilities. It mitigates chronic inflammatory responses and may improve autoimmune conditions."
+        },
+        {
+          "title": "Skin Brightening and Anti-Aging",
+          "description": "Reduced glutathione inhibits tyrosinase activity, reducing melanin production and improving hyperpigmentation and dull skin tone. It also decreases UV-induced oxidative damage, delaying skin aging."
+        },
+        {
+          "title": "Liver Health Protection",
+          "description": "Reduced glutathione is used to prevent alcoholic fatty liver and drug-induced liver injury, as well as to support the treatment of non-alcoholic fatty liver disease (NAFLD) and hepatitis."
+        }
+      ],
+      "applications": [
+        {
+          "title": "Nutraceuticals",
+          "description": "As an oral supplement, reduced glutathione is a key ingredient in comprehensive anti-aging formulations. It is commonly used to improve skin tone and lighten melasma, often combined with vitamin C for enhanced effects."
+        },
+        {
+          "title": "Cosmetics",
+          "description": "Reduced glutathione brightens skin tone by inhibiting melanin synthesis pathways (e.g., interfering with tyrosinase activity). It is widely used in serums, masks, and lotions."
+        },
+        {
+          "title": "Anti-Aging Products",
+          "description": "Reduced glutathione minimizes free radical damage to collagen and elastin fibers, delaying wrinkle formation. It is often combined with other antioxidants like vitamin E and coenzyme Q10."
+        }
+      ],
+      "details": {
+        "cas_number": "70-18-8",
+        "specification": "98%",
+        "appearance": "White crystalline powder",
+        "molecular_formula": "C10H17N3O6S",
+        "solubility": "Soluble in water, dilute alcohols, liquid ammonia, and dimethylformamide; insoluble in alcohols, ethers, and acetone",
+        "package": "1kg/bag, 25kg/drum",
+        "certificate": "ISO9001"
+      }
+    }
+  }
+}
