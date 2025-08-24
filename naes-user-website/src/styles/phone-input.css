@@ -23,6 +23,10 @@
   box-shadow: 0 0 0 2px #204f3e33; /* ring-[#204f3e]/20 */
 }
 
+.react-tel-input .form-control:hover{
+    border-color: none !important;
+}
+
 /* Flag button aligned and rounded left */
 .react-tel-input .flag-dropdown {
   border: 1px solid #d1d5db; /* gray-300 */
