@@ -4,6 +4,10 @@ import contactHeroImage from '@/assets/images/contact-banner.png';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getCaptcha, sendContactMessage } from '@/services/contact';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/material.css';
+import zhCNLocales from '@/data/phoneLocalesCN';
+import '@/styles/phone-input.css';
 
 // interface TeamMember {
 //   name: string;
@@ -38,6 +42,10 @@ const ContactPage = () => {
     whatsapp: '',
     message: '',
   });
+
+  // 手机号输入（带国家码组件）
+  const [phoneValue, setPhoneValue] = useState<string>('');
+  const [whatsappValue, setWhatsappValue] = useState<string>('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -154,7 +162,7 @@ const ContactPage = () => {
       }
 
       // 简单前端校验：邮箱必填，whatsapp 必填
-      if (!formData.email || !formData.whatsapp) {
+      if (!formData.email || !whatsappValue) {
         throw new Error('required fields missing');
       }
 
@@ -168,14 +176,18 @@ const ContactPage = () => {
         return;
       }
 
+      // 统一拼接为 E.164（确保有+前缀）
+      const phoneE164 = phoneValue ? (phoneValue.startsWith('+') ? phoneValue : `+${phoneValue}`) : '';
+      const whatsappE164 = whatsappValue ? (whatsappValue.startsWith('+') ? whatsappValue : `+${whatsappValue}`) : '';
+
       // 发送请求
       const res: any = await sendContactMessage(
         {
           name: formData.name,
           email: formData.email,
           company: formData.company,
-          phone: formData.phone,
-          whatsapp: formData.whatsapp,
+          phone: phoneE164,
+          whatsapp: whatsappE164,
           message: formData.message,
         },
         captchaUUID,
@@ -217,6 +229,8 @@ const ContactPage = () => {
         whatsapp: '',
         message: '',
       });
+      setPhoneValue('');
+      setWhatsappValue('');
       await loadCaptcha(true);
     } catch (error) {
       console.error('Form submission error:', error);
@@ -396,18 +410,18 @@ const ContactPage = () => {
                   >
                     {t('form.fields.phone', '电话号码')}
                   </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#204f3e]"
-                    placeholder={t(
-                      'form.placeholders.phone',
-                      '请输入您的电话号码',
-                    )}
-                  />
+                  <div className="w-full">
+                    <PhoneInput
+                      country={'cn'}
+                      value={phoneValue}
+                      onChange={(val) => setPhoneValue(val || '')}
+                      enableSearch
+                      localization={zhCNLocales}
+                      inputProps={{ id: 'phone', name: 'phone', placeholder: t('form.placeholders.phone', '请输入您的电话号码') as string }}
+                      containerClass="w-full"
+                      inputClass="!w-full !h-[48px] !text-base"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -419,16 +433,18 @@ const ContactPage = () => {
                 >
                   WhatsApp <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  id="whatsapp"
-                  name="whatsapp"
-                  value={formData.whatsapp}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#204f3e]"
-                  placeholder="eg: 0571-855029951"
-                />
+                <div className="w-full">
+                  <PhoneInput
+                    country={'cn'}
+                    value={whatsappValue}
+                    onChange={(val) => setWhatsappValue(val || '')}
+                    enableSearch
+                    localization={zhCNLocales}
+                    inputProps={{ id: 'whatsapp', name: 'whatsapp', placeholder: '请输入 WhatsApp 号码' }}
+                    containerClass="w-full"
+                    inputClass="!w-full !h-[48px] !text-base"
+                  />
+                </div>
               </div>
 
               {/* 第四行：消息内容 */}
