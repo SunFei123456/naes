@@ -38,7 +38,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductDetailTemplate: React.FC<Product> = (product) => {
   const { t, i18n } = useTranslation('products');
-  const { name, labels, primary_source } = useProductTranslations(product.id);
+  const { name, labels } = useProductTranslations(product.id);
   const navigate = useNavigate();
 
   const isEnglish = i18n.language === 'en';

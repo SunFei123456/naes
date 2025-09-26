@@ -37,7 +37,7 @@ import p102Image from '@/assets/product/p10-2.png';
 
 const ProductDetailTemplate: React.FC<Product> = (product) => {
   const { t, i18n } = useTranslation('products');
-  const { name, labels, primary_source } = useProductTranslations(product.id);
+  const { name, labels } = useProductTranslations(product.id);
 
   const isEnglish = i18n.language === 'en';
 

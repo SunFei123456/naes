@@ -9,7 +9,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 const News: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const { news, loading, pagination } = useNewsList({ 
     pageNo: currentPage, 

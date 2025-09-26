@@ -15,7 +15,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ newsTitle }) => {
   // 获取当前路径中的产品ID
   const pathnames = location.pathname.split('/').filter(Boolean);
   const isProductDetail = pathnames[0] === 'products' && pathnames[1];
-  const isNewsDetail = pathnames[0] === 'news' && pathnames[1];
+  // const isNewsDetail = pathnames[0] === 'news' && pathnames[1];
   const productId = isProductDetail ? pathnames[1] : null;
   
   // 只在产品详情页面时使用产品翻译
