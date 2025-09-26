@@ -243,18 +243,6 @@ export default function News() {
   // 表格列定义
   const columns = useMemo(() => [
     {
-      key: 'article_id',
-      title: '文章ID',
-      dataIndex: 'article_id',
-      width: 200,
-      enableSorting: false,
-      render: (value) => (
-        <div className="truncate max-w-xs font-mono text-xs" title={value}>
-          {value || '-'}
-        </div>
-      )
-    },
-    {
       key: 'title',
       title: t('news.articleTitle'),
       dataIndex: 'title',
