@@ -5,6 +5,16 @@ import MDEditor from '@uiw/react-md-editor';
 import Icon from '../components/Icon';
 import { useThemeStore } from '../stores/theme';
 
+// Cloudinary 配置
+// 请在 Cloudinary 控制台获取以下信息：
+// 1. cloud_name: 在控制台首页可以找到
+// 2. upload_preset: 需要创建一个 unsigned upload preset
+//    在 Settings > Upload > Upload presets 中创建
+const CLOUDINARY_CONFIG = {
+  cloud_name: 'dazdjqzwd', // 请替换为您的 cloud_name
+  upload_preset: 'nase-console' // 原始 preset，修改为 unsigned 模式
+};
+
 export default function NewsAdd() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -14,7 +24,7 @@ export default function NewsAdd() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    coverImage: null,
+    coverImageUrl: '', // 存储 Cloudinary URL 而不是文件对象
     publisher: '',
     publishTime: new Date().toISOString().slice(0, 16), // YYYY-MM-DDTHH:mm
   });
@@ -31,8 +41,9 @@ export default function NewsAdd() {
   // 加载状态
   const [loading, setLoading] = useState(false);
   
-  // 图片预览URL
-  const [imagePreview, setImagePreview] = useState(null);
+  // 图片上传状态
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   // 处理表单输入变化
   const handleInputChange = (field, value) => {
@@ -42,21 +53,64 @@ export default function NewsAdd() {
     }));
   };
 
-  // 处理图片上传
-  const handleImageUpload = (event) => {
+  // 处理图片上传到 Cloudinary
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
+    if (!file) return;
+    
+    // 验证文件类型
+    if (!file.type.startsWith('image/')) {
+      alert('请选择图片文件');
+      return;
+    }
+    
+    // 验证文件大小 (限制为 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      alert('图片文件大小不能超过 10MB');
+      return;
+    }
+    
+    setUploadingImage(true);
+    setUploadProgress(0);
+    
+    try {
+      // 创建 FormData
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+      uploadFormData.append('upload_preset', CLOUDINARY_CONFIG.upload_preset);
+      
+      // 上传到 Cloudinary
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloud_name}/image/upload`,
+        {
+          method: 'POST',
+          body: uploadFormData,
+        }
+      );
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        // 如果有错误信息，显示详细错误
+        const errorMessage = result.error?.message || result.message || `HTTP ${response.status}`;
+        throw new Error(`上传失败: ${errorMessage}`);
+      }
+      
+      // 保存 Cloudinary URL
       setFormData(prev => ({
         ...prev,
-        coverImage: file
+        coverImageUrl: result.secure_url
       }));
       
-      // 创建预览URL
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      setUploadProgress(100);
+      
+    } catch (error) {
+      console.error('图片上传失败:', error);
+      alert(`图片上传失败: ${error.message}`);
+    } finally {
+      setUploadingImage(false);
+      // 3秒后隐藏进度条
+      setTimeout(() => setUploadProgress(0), 3000);
     }
   };
 
@@ -194,17 +248,49 @@ export default function NewsAdd() {
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
+                  disabled={uploadingImage}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                 />
-                {imagePreview && (
-                  <div className="mt-2">
-                    <img
-                      src={imagePreview}
-                      alt="预览"
-                      className="w-full h-32 object-cover rounded-md border"
-                    />
+                
+                {/* 上传进度条 */}
+                {uploadingImage && (
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
                   </div>
                 )}
+                
+                {/* 上传状态文字 */}
+                {uploadingImage && (
+                  <p className="text-sm text-blue-600">正在上传图片...</p>
+                )}
+                
+                {/* 图片预览 */}
+                {formData.coverImageUrl && (
+                  <div className="mt-2">
+                    <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 比例 */ }}>
+                      <img
+                        src={formData.coverImageUrl}
+                        alt="封面预览"
+                        className="absolute inset-0 w-full h-full object-cover rounded-md border"
+                      />
+                    </div>
+                    <div className="mt-1 flex items-center justify-between">
+                      <p className="text-xs text-green-600">✓ 图片上传成功</p>
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, coverImageUrl: '' }))}
+                        className="text-xs text-red-600 hover:text-red-800"
+                      >
+                        删除图片
+                      </button>
+                    </div>
+                  </div>
+                )}
+                
+           
               </div>
             </div>
 

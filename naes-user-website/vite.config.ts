@@ -12,7 +12,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://beta.natureessential.ltd',
+        target: 'https://beta.natureessential.ltd',
         changeOrigin: true,
         secure: false,
       },
@@ -21,7 +21,7 @@ export default defineConfig({
   preview: {
     proxy: {
       '/api': {
-        target: 'http://beta.natureessential.ltd',
+        target: 'https://beta.natureessential.ltd',
         changeOrigin: true,
         secure: false,
       },
