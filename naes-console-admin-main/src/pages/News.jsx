@@ -6,7 +6,7 @@ import SearchBarPro from '../components/SearchBarPro';
 import ConfirmDialog from '../components/ConfirmDialog';
 import SimplePagination from '../components/SimplePagination';
 import Icon from '../components/Icon';
-import { getNewsList, deleteNews, offlineNews } from '../services/news';
+import { getNewsList, deleteNews, offlineNews, editNews } from '../services/news';
 
 export default function News() {
   const { t } = useTranslation();
@@ -17,6 +17,7 @@ export default function News() {
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false); // 删除中状态
   const [offlining, setOfflining] = useState(false); // 下架中状态
+  const [publishing, setPublishing] = useState(false); // 发布中状态
   const [selectedRows, setSelectedRows] = useState([]); // 选中的行
   const [pagination, setPagination] = useState({
     current: 1,
@@ -30,7 +31,7 @@ export default function News() {
     keyword: '',
     startDate: '',
     endDate: '',
-    status: ''
+    status: 'published' // 默认显示已发布的文章
   });
   
   // 确认对话框
@@ -92,7 +93,7 @@ export default function News() {
       keyword: '',
       startDate: '',
       endDate: '',
-      status: ''
+      status: 'published' // 重置时也默认为已发布
     });
     setPagination(prev => ({ ...prev, current: 1 }));
   };
@@ -195,6 +196,50 @@ export default function News() {
     });
   };
 
+  // 发布草稿文章
+  const handlePublish = (e, record) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // 防止重复点击
+    if (publishing) {
+      return;
+    }
+    
+    setConfirmDialog({
+      open: true,
+      title: '发布文章',
+      message: `确定要发布文章「${record.title}」吗？
+      
+• 发布后文章将对外可见
+• 文章状态将变为已发布
+• 可以随时下架或编辑`,
+      onConfirm: async () => {
+        setPublishing(true); // 开始发布
+        try {
+          console.log('发布文章，ID:', record.id, '标题:', record.title); // 调试信息
+          // 使用editNews函数，只传递status: 1（已发布）
+          await editNews(record.id, { status: 1 });
+          
+          // 发布成功后刷新数据
+          await loadData();
+          setConfirmDialog({ open: false });
+          
+          // 显示成功提示
+          console.log('文章发布成功:', record.title);
+        } catch (error) {
+          console.error('发布失败:', error);
+          // 显示详细错误信息
+          const errorMessage = error.response?.data?.cause || error.response?.data?.message || error.message || '发布失败';
+          alert(`发布失败：${errorMessage}，请重试`);
+          console.error('发布错误详情:', error.response?.data);
+        } finally {
+          setPublishing(false); // 发布结束
+        }
+      }
+    });
+  };
+
   // 编辑文章
   const handleEdit = (e, record) => {
     e.preventDefault();
@@ -208,7 +253,7 @@ export default function News() {
     navigate('/news/add');
   };
 
-  // 表格列配置
+  // 表格列定义
   const columns = useMemo(() => [
     {
       key: 'article_id',
@@ -337,11 +382,16 @@ export default function News() {
             <>
               <button
                 type="button"
-                disabled
-                className="px-2 py-1 text-xs bg-gray-100 text-gray-400 rounded cursor-not-allowed dark:bg-gray-700 dark:text-gray-500"
-                title="只有已发布的文章才能下架"
+                onClick={(e) => handlePublish(e, record)}
+                disabled={publishing} // 发布过程中禁用按钮
+                className={`px-2 py-1 text-xs rounded transition-colors ${
+                  publishing 
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500'
+                    : 'bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800'
+                }`}
+                title={publishing ? '发布中...' : '发布文章'}
               >
-                {t('news.offline')}
+                {publishing ? '发布中...' : '发布'}
               </button>
               <button
                 type="button"
@@ -369,7 +419,7 @@ export default function News() {
         </div>
       )
     }
-  ], [t, pagination, handleEdit, handleDelete, handleOffline]);
+  ], [t, publishing, deleting, offlining, handleEdit, handleDelete, handleOffline, handlePublish]);
 
   // 搜索表单配置
   const searchFields = [
@@ -394,7 +444,6 @@ export default function News() {
       type: 'select',
       label: t('news.status'),
       options: [
-        { value: '', label: '全部' },
         { value: 'published', label: t('news.publish') },
         { value: 'draft', label: t('news.draft') }
       ]
@@ -483,8 +532,9 @@ export default function News() {
           setConfirmDialog({ open: false });
           setDeleting(false); // 取消时重置删除状态
           setOfflining(false); // 取消时重置下架状态
+          setPublishing(false); // 取消时重置发布状态
         }}
-        okText={deleting ? '删除中...' : offlining ? '下架中...' : '确认'}
+        okText={deleting ? '删除中...' : offlining ? '下架中...' : publishing ? '发布中...' : '确认'}
         cancelText="取消"
       >
         {confirmDialog.message}

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import MDEditor from '@uiw/react-md-editor';
 import Icon from '../components/Icon';
+import { useThemeStore } from '../stores/theme';
 import { getNewsById, createNews, updateNews, editNews, fetchNewsDetail } from '../services/news';
 import dayjs from 'dayjs';
 
@@ -15,23 +17,34 @@ export default function NewsEditor() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
+  const theme = useThemeStore(state => state.theme);
   const isEdit = Boolean(id);
 
   // 表单状态
   const [formData, setFormData] = useState({
     title: '',
-    titleEn: '',
-    content: '',
-    contentEn: '',
-    cover_image_url: '', // 添加封面图片字段
+    titleEn: '', // 英文标题
+    coverImageUrl: '', // 存储 Cloudinary URL 而不是文件对象
+    publishTime: dayjs().format('YYYY-MM-DDTHH:mm'), // 默认为当前本地系统时间
     id: '', // 使用数字ID而不是article_id
     article_id: ''
   });
   
+  // 文章内容状态 - 支持中英文
+  const [content, setContent] = useState({
+    zh: '',
+    en: ''
+  });
+  
+  // 当前编辑的语言
+  const [currentLang, setCurrentLang] = useState('zh');
+  
+  // 加载状态
   const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false); // 图片上传状态
-  const [uploadProgress, setUploadProgress] = useState(0); // 上传进度
+  
+  // 图片上传状态
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   // 加载文章数据（编辑模式）
   useEffect(() => {
@@ -48,21 +61,16 @@ export default function NewsEditor() {
       setFormData({
         title: article.title || '',
         titleEn: article.titleEn || '',
-        content: article.content || '',
-        contentEn: article.contentEn || '',
-        cover_image_url: article.cover_image_url || '', // 加载封面图片数据
+        coverImageUrl: article.cover_image_url || '', // 加载封面图片数据
+        publishTime: article.publish_date ? dayjs(article.publish_date).format('YYYY-MM-DDTHH:mm') : dayjs().format('YYYY-MM-DDTHH:mm'),
         id: article.id, // 保存数字ID
         article_id: article.article_id || ''
       });
-      console.log('设置的表单数据:', {
-        title: article.title || '',
-        titleEn: article.titleEn || '',
-        content: article.content || '',
-        contentEn: article.contentEn || '',
-        cover_image_url: article.cover_image_url || '',
-        id: article.id,
-        article_id: article.article_id || ''
-      }); // 调试信息
+      setContent({
+        zh: article.content || '',
+        en: article.contentEn || ''
+      });
+      console.log('设置的表单数据 - 发布时间:', article.publish_date ? dayjs(article.publish_date).format('YYYY-MM-DDTHH:mm') : '无发布时间'); // 调试信息
     } catch (error) {
       console.error('加载文章失败:', error);
       navigate('/news');
@@ -71,7 +79,15 @@ export default function NewsEditor() {
     }
   };
 
-  // 图片上传处理（参考 NewsAdd.jsx 的实现）
+  // 处理表单输入变化
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  // 处理图片上传到 Cloudinary
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -115,10 +131,12 @@ export default function NewsEditor() {
       }
       
       // 保存 Cloudinary URL
-      handleInputChange('cover_image_url', result.secure_url);
+      setFormData(prev => ({
+        ...prev,
+        coverImageUrl: result.secure_url
+      }));
       
       setUploadProgress(100);
-      alert('图片上传成功！');
       
     } catch (error) {
       console.error('图片上传失败:', error);
@@ -130,16 +148,17 @@ export default function NewsEditor() {
     }
   };
 
-  // 表单输入处理
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+  // 处理内容变化
+  const handleContentChange = (value) => {
+    setContent(prev => ({
       ...prev,
-      [field]: value
+      [currentLang]: value || ''
     }));
   };
 
-  // 保存文章
-  const handleSave = async (status = 'draft') => {
+  // 编辑模式下的保存功能
+  const handleEditSave = async () => {
+    // 表单验证
     if (!formData.title.trim()) {
       alert('请输入中文标题');
       return;
@@ -150,55 +169,91 @@ export default function NewsEditor() {
       return;
     }
     
-    // 编辑模式下，封面图片不是必须的（可能已经有了）
-    // 新增模式下，封面图片是必须的
-    if (!isEdit && !formData.cover_image_url.trim()) {
-      alert('请上传封面图片');
-      return;
-    }
-    
-    if (!formData.content.trim()) {
+    if (!content.zh.trim()) {
       alert('请输入中文内容');
       return;
     }
     
-    if (!formData.contentEn.trim()) {
+    if (!content.en.trim()) {
       alert('请输入英文内容');
       return;
     }
-
-    setSaving(true);
+    
+    setLoading(true);
     try {
-      const data = {
+      const newsData = {
         title: formData.title,
         titleEn: formData.titleEn,
-        cover_image_url: formData.cover_image_url, // 添加封面图片
-        content: formData.content,
-        contentEn: formData.contentEn,
-        status,
-        publish_date: dayjs().toISOString() // 默认为当前系统时间
+        cover_image_url: formData.coverImageUrl,
+        content: content.zh,
+        contentEn: content.en,
+        publish_date: formData.publishTime ? dayjs(formData.publishTime).toISOString() : dayjs().toISOString()
+        // 注意：这里不传递status，保持原有状态
       };
-
-      if (isEdit && formData.id) {
-        await editNews(formData.id, data);
-        alert('文章更新成功！');
-      } else {
-        await createNews(data);
-        alert('文章创建成功！');
-      }
-
+      
+      await editNews(formData.id, newsData);
+      alert('文章保存成功！');
       navigate('/news');
     } catch (error) {
       console.error('保存失败:', error);
-      alert(`保存失败: ${error.message || '请重试'}`);
+      alert(`保存失败: ${error.message}`);
     } finally {
-      setSaving(false);
+      setLoading(false);
     }
   };
 
-  // 取消编辑
-  const handleCancel = () => {
-    navigate('/news');
+  // 保存草稿（仅新增模式使用）
+  const handleSaveDraft = async () => {
+    // 表单验证 - 草稿也需要所有字段
+    if (!formData.title.trim()) {
+      alert('请输入中文标题');
+      return;
+    }
+    
+    if (!formData.titleEn.trim()) {
+      alert('请输入英文标题');
+      return;
+    }
+    
+    if (!formData.coverImageUrl.trim()) {
+      alert('请上传首页配图');
+      return;
+    }
+    
+    if (!content.zh.trim()) {
+      alert('请输入中文内容');
+      return;
+    }
+    
+    if (!content.en.trim()) {
+      alert('请输入英文内容');
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      const newsData = {
+        title: formData.title,
+        titleEn: formData.titleEn,
+        cover_image_url: formData.coverImageUrl,
+        content: content.zh,
+        contentEn: content.en,
+        status: 'draft',
+        publish_date: formData.publishTime ? dayjs(formData.publishTime).toISOString() : dayjs().toISOString()
+      };
+      
+      const result = await createNews(newsData);
+      if (result.success) {
+        alert('草稿保存成功！');
+      } else {
+        throw new Error(result.error?.cause || '保存失败');
+      }
+    } catch (error) {
+      console.error('保存草稿失败:', error);
+      alert(`保存草稿失败: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
@@ -213,208 +268,211 @@ export default function NewsEditor() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* 页面标题 */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleCancel}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          >
-            <Icon name="arrowLeft" className="w-5 h-5" />
-          </button>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            {isEdit ? t('news.edit') : t('news.add')} - {t('news.editor.title')}
-          </h1>
-        </div>
-        
-        {/* 操作按钮 */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleCancel}
-            disabled={saving}
-            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 disabled:opacity-50"
-          >
-            {t('news.editor.cancel')}
-          </button>
-          <button
-            onClick={() => handleSave('draft')}
-            disabled={saving}
-            className="px-4 py-2 text-gray-700 bg-yellow-100 rounded-lg hover:bg-yellow-200 dark:bg-yellow-900 dark:text-yellow-200 dark:hover:bg-yellow-800 disabled:opacity-50"
-          >
-            {saving ? (
-              <span className="flex items-center gap-2">
-                <Icon name="spinner" className="w-4 h-4 animate-spin" />
-                保存中...
-              </span>
-            ) : (
-              t('news.editor.saveDraft')
-            )}
-          </button>
-          <button
-            onClick={() => handleSave('published')}
-            disabled={saving}
-            className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 disabled:opacity-50"
-          >
-            {saving ? (
-              <span className="flex items-center gap-2">
-                <Icon name="spinner" className="w-4 h-4 animate-spin" />
-                发布中...
-              </span>
-            ) : (
-              t('news.editor.publish')
-            )}
-          </button>
-        </div>
+    <div className="space-y-4">
+      {/* 返回按钮 */}
+      <div className="flex items-center">
+        <button
+          onClick={() => navigate('/news')}
+          className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+        >
+          <Icon name="arrow-left" className="w-5 h-5" />
+        </button>
       </div>
 
-      {/* 编辑表单 */}
-      <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-6 space-y-6">
-        {/* 中文标题 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            中文标题 <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            value={formData.title}
-            onChange={(e) => handleInputChange('title', e.target.value)}
-            placeholder="请输入中文标题"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100"
-          />
-        </div>
-
-        {/* 英文标题 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            英文标题 <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            value={formData.titleEn}
-            onChange={(e) => handleInputChange('titleEn', e.target.value)}
-            placeholder="Please enter English title"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100"
-          />
-        </div>
-
-        {/* 封面图片 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            封面图片 {!isEdit && <span className="text-red-500">*</span>}
-            {isEdit && <span className="text-gray-500 text-xs ml-1">(可选)</span>}
-          </label>
+      {/* 主要内容区域 */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* 左侧：基本信息表单 */}
+        <div className="lg:col-span-2 bg-white dark:bg-zinc-800 rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            基本信息
+          </h2>
           
-          {/* 图片预览区域 */}
-          <div className="space-y-3">
-            {/* 文件上传 */}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              disabled={uploadingImage}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-            />
-            
-            {/* 上传进度条 */}
-            {uploadingImage && (
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${uploadProgress}%` }}
-                ></div>
-              </div>
-            )}
-            
-            {/* 上传状态文字 */}
-            {uploadingImage && (
-              <p className="text-sm text-blue-600">正在上传图片...</p>
-            )}
-            
-            {/* 图片预览 */}
-            {formData.cover_image_url && (
-              <div className="space-y-2">
-                <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 比例 */ }}>
-                  <img
-                    src={formData.cover_image_url}
-                    alt="封面图预览"
-                    className="absolute inset-0 w-full h-full object-cover rounded border"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
-                  />
-                  <div 
-                    className="absolute inset-0 w-full h-full bg-gray-100 dark:bg-gray-700 rounded border flex items-center justify-center text-sm text-gray-400"
-                    style={{ display: 'none' }}
-                  >
-                    图片加载失败
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-xs text-green-600">✓ 图片上传成功</p>
-                  <button
-                    type="button"
-                    onClick={() => handleInputChange('cover_image_url', '')}
-                    className="text-xs text-red-600 hover:text-red-800"
-                  >
-                    删除图片
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* 中文内容 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            中文内容 <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            value={formData.content}
-            onChange={(e) => handleInputChange('content', e.target.value)}
-            placeholder="请输入中文内容"
-            rows={10}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100 resize-none"
-          />
-          <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            中文字数统计: {formData.content.length}
-          </div>
-        </div>
-
-        {/* 英文内容 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            英文内容 <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            value={formData.contentEn}
-            onChange={(e) => handleInputChange('contentEn', e.target.value)}
-            placeholder="Please enter English content"
-            rows={10}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100 resize-none"
-          />
-          <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            English word count: {formData.contentEn.length}
-          </div>
-        </div>
-      </div>
-
-      {/* 右侧悬浮编辑提示 */}
-      <div className="fixed top-1/3 right-6 transform -translate-y-1/2 z-40 w-72">
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 shadow-lg">
-          <div className="flex items-start gap-3">
-            <Icon name="info" className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-            <div className="text-sm text-blue-800 dark:text-blue-200">
-              <p className="font-medium mb-2">编辑说明：</p>
-              <ul className="space-y-1.5 text-xs leading-relaxed">
-                <li>• 保存为草稿：文章将保存但不会发布，可以继续编辑</li>
-                <li>• 发布文章：文章将立即发布并对外可见</li>
-                <li>• 已发布的文章只能进行下架和删除操作，无法直接编辑</li>
-                <li>• 下架后的文章状态将变为草稿，可以重新编辑</li>
-              </ul>
+          <div className="space-y-4">
+            {/* 文章标题 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                中文标题 <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => handleInputChange('title', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
+                placeholder="请输入中文标题"
+              />
             </div>
+
+            {/* 英文标题 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                英文标题 <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                value={formData.titleEn}
+                onChange={(e) => handleInputChange('titleEn', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
+                placeholder="Please enter English title"
+              />
+            </div>
+
+            {/* 首页配图 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                首页配图 {!isEdit && <span className="text-red-500">*</span>}
+                {isEdit && <span className="text-gray-500 text-xs ml-1">(可选)</span>}
+              </label>
+              <div className="space-y-2">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploadingImage}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                
+                {/* 上传进度条 */}
+                {uploadingImage && (
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
+                  </div>
+                )}
+                
+                {/* 上传状态文字 */}
+                {uploadingImage && (
+                  <p className="text-sm text-blue-600">正在上传图片...</p>
+                )}
+                
+                {/* 图片预览 */}
+                {formData.coverImageUrl && (
+                  <div className="mt-2">
+                    <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 比例 */ }}>
+                      <img
+                        src={formData.coverImageUrl}
+                        alt="封面预览"
+                        className="absolute inset-0 w-full h-full object-cover rounded-md border"
+                      />
+                    </div>
+                    <div className="mt-1 flex items-center justify-between">
+                      <p className="text-xs text-green-600">✓ 图片上传成功</p>
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, coverImageUrl: '' }))}
+                        className="text-xs text-red-600 hover:text-red-800"
+                      >
+                        删除图片
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* 发布时间 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                发布时间 <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="datetime-local"
+                value={formData.publishTime}
+                onChange={(e) => handleInputChange('publishTime', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
+              />
+            </div>
+
+            {/* 操作按钮 */}
+            <div className="flex gap-3 pt-4">
+              {isEdit ? (
+                // 编辑模式：取消 + 保存
+                <>
+                  <button
+                    onClick={() => navigate('/news')}
+                    disabled={loading}
+                    className="flex-1 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    取消
+                  </button>
+                  <button
+                    onClick={handleEditSave}
+                    disabled={loading}
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? '保存中...' : '保存'}
+                  </button>
+                </>
+              ) : (
+                // 新增模式：保存草稿 + 确认发布
+                <>
+                  <button
+                    onClick={handleSaveDraft}
+                    disabled={loading}
+                    className="flex-1 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? '保存中...' : '保存草稿'}
+                  </button>
+                  <button
+                    onClick={handlePublish}
+                    disabled={loading}
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? '发布中...' : '确认发布'}
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* 右侧：文章内容编辑器 */}
+        <div className="lg:col-span-3 bg-white dark:bg-zinc-800 rounded-lg shadow p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              文章内容 <span className="text-red-500">*</span>
+            </h2>
+            
+            {/* 语言切换 */}
+            <div className="flex bg-gray-100 dark:bg-zinc-700 rounded-md p-1">
+              <button
+                onClick={() => setCurrentLang('zh')}
+                className={`px-3 py-1 text-sm rounded ${
+                  currentLang === 'zh'
+                    ? 'bg-white dark:bg-zinc-600 text-blue-600 dark:text-blue-400 shadow'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                中文
+              </button>
+              <button
+                onClick={() => setCurrentLang('en')}
+                className={`px-3 py-1 text-sm rounded ${
+                  currentLang === 'en'
+                    ? 'bg-white dark:bg-zinc-600 text-blue-600 dark:text-blue-400 shadow'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                English
+              </button>
+            </div>
+          </div>
+
+          {/* Markdown 编辑器 */}
+          <div className="h-96">
+            <MDEditor
+              value={content[currentLang]}
+              onChange={handleContentChange}
+              height={384}
+              data-color-mode={theme}
+              visibleDragBar={false}
+            />
+          </div>
+          
+          {/* 内容提示 */}
+          <div className="mt-2 text-sm text-gray-500">
+            当前编辑: {currentLang === 'zh' ? '中文内容 (必填)' : '英文内容 (必填)'}
           </div>
         </div>
       </div>
