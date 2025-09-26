@@ -79,25 +79,51 @@ const ContactPage = () => {
       const cachedUUID = localStorage.getItem('captcha_uuid') || '';
       const expireAt = Number(localStorage.getItem('captcha_expire_at') || 0);
       const valid = !force && cachedUUID && expireAt && expireAt > Date.now();
+      
       if (valid) {
-        // 即使有缓存，也要取一次图片，以更新图像（避免浏览器缓存可加上时间戳）
+        // 有有效缓存，直接使用缓存的 UUID
+        setCaptchaUUID(cachedUUID);
+        setCaptchaExpireAt(expireAt);
+        
+        // 仍然获取新的图片以避免浏览器缓存
+        const info = await getCaptcha();
+        // 替换图片前，若旧 URL 为 blob: 则回收
+        if (captchaImgUrl && captchaImgUrl.startsWith('blob:')) {
+          try { URL.revokeObjectURL(captchaImgUrl); } catch {}
+        }
+        setCaptchaImgUrl(info.blobUrl);
+        
+        // 重要：即使使用缓存，也要确保 UUID 一致
+        if (info.uuid !== cachedUUID) {
+          // 如果返回的 UUID 与缓存不一致，使用新的
+          setCaptchaUUID(info.uuid);
+          localStorage.setItem('captcha_uuid', info.uuid);
+          if (info.ttl) {
+            const nextExpire = Date.now() + info.ttl * 1000;
+            localStorage.setItem('captcha_expire_at', String(nextExpire));
+            setCaptchaExpireAt(nextExpire);
+          }
+        }
+      } else {
+        // 无缓存或强制刷新，获取新的验证码
+        const info = await getCaptcha();
+        // 替换图片前，若旧 URL 为 blob: 则回收
+        if (captchaImgUrl && captchaImgUrl.startsWith('blob:')) {
+          try { URL.revokeObjectURL(captchaImgUrl); } catch {}
+        }
+        setCaptchaImgUrl(info.blobUrl);
+        setCaptchaUUID(info.uuid);
+        if (info.ttl) {
+          localStorage.setItem('captcha_uuid', info.uuid);
+          localStorage.setItem(
+            'captcha_expire_at',
+            String(Date.now() + info.ttl * 1000),
+          );
+          const nextExpire = Date.now() + info.ttl * 1000;
+          setCaptchaExpireAt(nextExpire);
+        }
       }
-      const info = await getCaptcha();
-      // 替换图片前，若旧 URL 为 blob: 则回收
-      if (captchaImgUrl && captchaImgUrl.startsWith('blob:')) {
-        try { URL.revokeObjectURL(captchaImgUrl); } catch {}
-      }
-      setCaptchaImgUrl(info.blobUrl);
-      setCaptchaUUID(info.uuid);
-      if (info.ttl) {
-        localStorage.setItem('captcha_uuid', info.uuid);
-        localStorage.setItem(
-          'captcha_expire_at',
-          String(Date.now() + info.ttl * 1000),
-        );
-        const nextExpire = Date.now() + info.ttl * 1000;
-        setCaptchaExpireAt(nextExpire);
-      }
+      
       setCaptchaAnswer('');
       setCaptchaError('');
       setCaptchaErrorCode('');
@@ -181,6 +207,9 @@ const ContactPage = () => {
         return;
       }
 
+      // 确保使用的是当前有效的 UUID
+      const currentUUID = localStorage.getItem('captcha_uuid') || captchaUUID;
+
       // 统一拼接为 E.164（确保有+前缀）
       const phoneE164 = phoneValue ? (phoneValue.startsWith('+') ? phoneValue : `+${phoneValue}`) : '';
       const whatsappE164 = whatsappValue ? (whatsappValue.startsWith('+') ? whatsappValue : `+${whatsappValue}`) : '';
@@ -195,8 +224,8 @@ const ContactPage = () => {
           whatsapp: whatsappE164,
           message: formData.message,
         },
-        captchaUUID,
-        captchaAnswer,
+        currentUUID, // 使用当前有效的 UUID
+        captchaAnswer.toLowerCase(), // 在发送前转换为小写
       );
 
       // 兼容多种后端返回：
@@ -247,6 +276,7 @@ const ContactPage = () => {
       });
       setPhoneValue('');
       setWhatsappValue('');
+      // 获取新的验证码
       await loadCaptcha(true);
     } catch (error) {
       console.error('Form submission error:', error);
