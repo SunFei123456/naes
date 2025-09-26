@@ -6,7 +6,7 @@ import SearchBarPro from '../components/SearchBarPro';
 import ConfirmDialog from '../components/ConfirmDialog';
 import SimplePagination from '../components/SimplePagination';
 import Icon from '../components/Icon';
-import { getNewsList, deleteNews, offlineNews } from '../mocks/news';
+import { getNewsList, deleteNews, offlineNews } from '../services/news';
 
 export default function News() {
   const { t } = useTranslation();
@@ -101,11 +101,12 @@ export default function News() {
       message: t('news.confirm.delete'),
       onConfirm: async () => {
         try {
-          await deleteNews(record.id);
+          await deleteNews(record.article_id); // 使用 article_id 而不是 id
           loadData();
           setConfirmDialog({ open: false });
         } catch (error) {
           console.error('删除失败:', error);
+          alert('删除失败，请重试');
         }
       }
     });
@@ -119,11 +120,12 @@ export default function News() {
       message: t('news.confirm.offline'),
       onConfirm: async () => {
         try {
-          await offlineNews(record.id);
+          await offlineNews(record.article_id); // 使用 article_id 而不是 id
           loadData();
           setConfirmDialog({ open: false });
         } catch (error) {
           console.error('下架失败:', error);
+          alert('下架失败，请重试');
         }
       }
     });
@@ -131,7 +133,7 @@ export default function News() {
 
   // 编辑文章
   const handleEdit = (record) => {
-    navigate(`/news/edit/${record.id}`);
+    navigate(`/news/edit/${record.article_id}`); // 使用 article_id 而不是 id
   };
 
   // 新增文章
@@ -155,22 +157,19 @@ export default function News() {
       key: 'title',
       title: t('news.articleTitle'),
       dataIndex: 'title',
-      width: 300,
+      width: 400,
       align: 'left',
       enableSorting: false,
-      render: (value) => (
-        <div className="truncate max-w-xs" title={value}>
-          {value}
+      render: (value, record) => (
+        <div className="space-y-1">
+          <div className="truncate max-w-sm font-medium" title={record.title}>
+            中文: {record.title || '-'}
+          </div>
+          <div className="truncate max-w-sm text-sm text-gray-500" title={record.titleEn}>
+            English: {record.titleEn || '-'}
+          </div>
         </div>
       )
-    },
-    {
-      key: 'publisher',
-      title: t('news.publisher'),
-      dataIndex: 'publisher',
-      width: 120,
-      enableSorting: false,
-      render: (value) => value || '-'
     },
     {
       key: 'publishTime',

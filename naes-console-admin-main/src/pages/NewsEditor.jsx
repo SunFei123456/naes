@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import Icon from '../components/Icon';
-import { getNewsById, createNews, updateNews } from '../mocks/news';
+import { getNewsById, createNews, updateNews, editNews, fetchNewsDetail } from '../services/news';
+import dayjs from 'dayjs';
 
 export default function NewsEditor() {
   const { t } = useTranslation();
@@ -13,7 +14,10 @@ export default function NewsEditor() {
   // 表单状态
   const [formData, setFormData] = useState({
     title: '',
-    content: ''
+    titleEn: '',
+    content: '',
+    contentEn: '',
+    article_id: ''
   });
   
   const [loading, setLoading] = useState(false);
@@ -29,14 +33,16 @@ export default function NewsEditor() {
   const loadArticle = async () => {
     setLoading(true);
     try {
-      const article = await getNewsById(id);
+      const article = await fetchNewsDetail(id);
       setFormData({
         title: article.title,
-        content: article.content
+        titleEn: article.titleEn,
+        content: article.content,
+        contentEn: article.contentEn,
+        article_id: article.article_id
       });
     } catch (error) {
       console.error('加载文章失败:', error);
-      // 可以显示错误提示或跳转回列表页
       navigate('/news');
     } finally {
       setLoading(false);
@@ -54,29 +60,42 @@ export default function NewsEditor() {
   // 保存文章
   const handleSave = async (status = 'draft') => {
     if (!formData.title.trim()) {
-      alert('请输入文章标题');
+      alert('请输入中文标题');
+      return;
+    }
+    
+    if (!formData.titleEn.trim()) {
+      alert('请输入英文标题');
       return;
     }
     
     if (!formData.content.trim()) {
-      alert('请输入文章内容');
+      alert('请输入中文内容');
+      return;
+    }
+    
+    if (!formData.contentEn.trim()) {
+      alert('请输入英文内容');
       return;
     }
 
     setSaving(true);
     try {
       const data = {
-        ...formData,
-        status
+        title: formData.title,
+        titleEn: formData.titleEn,
+        content: formData.content,
+        contentEn: formData.contentEn,
+        status,
+        publish_date: dayjs().toISOString() // 默认为当前系统时间
       };
 
-      if (isEdit) {
-        await updateNews(id, data);
+      if (isEdit && formData.article_id) {
+        await editNews(formData.article_id, data);
       } else {
         await createNews(data);
       }
 
-      // 保存成功后跳转回列表页
       navigate('/news');
     } catch (error) {
       console.error('保存失败:', error);
@@ -160,34 +179,65 @@ export default function NewsEditor() {
 
       {/* 编辑表单 */}
       <div className="bg-white dark:bg-zinc-800 rounded-lg shadow p-6 space-y-6">
-        {/* 文章标题 */}
+        {/* 中文标题 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t('news.articleTitle')} <span className="text-red-500">*</span>
+            中文标题 <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             value={formData.title}
             onChange={(e) => handleInputChange('title', e.target.value)}
-            placeholder={t('news.editor.titlePlaceholder')}
+            placeholder="请输入中文标题"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100"
           />
         </div>
 
-        {/* 文章内容 */}
+        {/* 英文标题 */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            {t('news.editor.content')} <span className="text-red-500">*</span>
+            英文标题 <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={formData.titleEn}
+            onChange={(e) => handleInputChange('titleEn', e.target.value)}
+            placeholder="Please enter English title"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100"
+          />
+        </div>
+
+        {/* 中文内容 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            中文内容 <span className="text-red-500">*</span>
           </label>
           <textarea
             value={formData.content}
             onChange={(e) => handleInputChange('content', e.target.value)}
-            placeholder={t('news.editor.contentPlaceholder')}
-            rows={20}
+            placeholder="请输入中文内容"
+            rows={10}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100 resize-none"
           />
           <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            字数统计: {formData.content.length}
+            中文字数统计: {formData.content.length}
+          </div>
+        </div>
+
+        {/* 英文内容 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            英文内容 <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            value={formData.contentEn}
+            onChange={(e) => handleInputChange('contentEn', e.target.value)}
+            placeholder="Please enter English content"
+            rows={10}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-100 resize-none"
+          />
+          <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            English word count: {formData.contentEn.length}
           </div>
         </div>
 

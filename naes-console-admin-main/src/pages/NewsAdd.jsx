@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import Icon from '../components/Icon';
 import { useThemeStore } from '../stores/theme';
+import { createNews } from '../services/news';
+import dayjs from 'dayjs';
 
 // Cloudinary 配置
 // 请在 Cloudinary 控制台获取以下信息：
@@ -23,10 +25,9 @@ export default function NewsAdd() {
   // 表单状态
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
+    titleEn: '', // 英文标题
     coverImageUrl: '', // 存储 Cloudinary URL 而不是文件对象
-    publisher: '',
-    publishTime: new Date().toISOString().slice(0, 16), // YYYY-MM-DDTHH:mm
+    publishTime: dayjs().format('YYYY-MM-DDTHH:mm'), // 默认为当前本地系统时间
   });
   
   // 文章内容状态 - 支持中英文
@@ -124,22 +125,54 @@ export default function NewsAdd() {
 
   // 保存草稿
   const handleSaveDraft = async () => {
+    // 表单验证 - 草稿也需要所有字段
+    if (!formData.title.trim()) {
+      alert('请输入中文标题');
+      return;
+    }
+    
+    if (!formData.titleEn.trim()) {
+      alert('请输入英文标题');
+      return;
+    }
+    
+    if (!formData.coverImageUrl.trim()) {
+      alert('请上传首页配图');
+      return;
+    }
+    
+    if (!content.zh.trim()) {
+      alert('请输入中文内容');
+      return;
+    }
+    
+    if (!content.en.trim()) {
+      alert('请输入英文内容');
+      return;
+    }
+    
     setLoading(true);
     try {
-      // 这里调用保存草稿的API
-      console.log('保存草稿:', {
-        ...formData,
-        content,
-        status: 'draft'
-      });
+      const newsData = {
+        title: formData.title,
+        titleEn: formData.titleEn,
+        cover_image_url: formData.coverImageUrl,
+        content: content.zh,
+        contentEn: content.en,
+        status: 'draft',
+        publish_date: formData.publishTime ? dayjs(formData.publishTime).toISOString() : dayjs().toISOString()
+      };
       
-      // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const result = await createNews(newsData);
       
-      alert('草稿保存成功！');
+      if (result.success) {
+        alert('草稿保存成功！');
+      } else {
+        throw new Error(result.error?.cause || '保存失败');
+      }
     } catch (error) {
       console.error('保存草稿失败:', error);
-      alert('保存草稿失败，请重试');
+      alert(`保存草稿失败: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -149,37 +182,53 @@ export default function NewsAdd() {
   const handlePublish = async () => {
     // 表单验证
     if (!formData.title.trim()) {
-      alert('请输入文章标题');
+      alert('请输入中文标题');
       return;
     }
     
-    if (!formData.description.trim()) {
-      alert('请输入文章描述');
+    if (!formData.titleEn.trim()) {
+      alert('请输入英文标题');
       return;
     }
     
-    if (!content.zh.trim() && !content.en.trim()) {
-      alert('请输入文章内容');
+    if (!formData.coverImageUrl.trim()) {
+      alert('请上传首页配图');
+      return;
+    }
+    
+    if (!content.zh.trim()) {
+      alert('请输入中文内容');
+      return;
+    }
+    
+    if (!content.en.trim()) {
+      alert('请输入英文内容');
       return;
     }
     
     setLoading(true);
     try {
-      // 这里调用发布文章的API
-      console.log('发布文章:', {
-        ...formData,
-        content,
-        status: 'published'
-      });
+      const newsData = {
+        title: formData.title,
+        titleEn: formData.titleEn,
+        cover_image_url: formData.coverImageUrl,
+        content: content.zh,
+        contentEn: content.en,
+        status: 'published',
+        publish_date: formData.publishTime ? dayjs(formData.publishTime).toISOString() : dayjs().toISOString()
+      };
       
-      // 模拟API调用
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const result = await createNews(newsData);
       
-      alert('文章发布成功！');
-      navigate('/news');
+      if (result.success) {
+        alert('文章发布成功！');
+        navigate('/news');
+      } else {
+        throw new Error(result.error?.cause || '发布失败');
+      }
     } catch (error) {
       console.error('发布失败:', error);
-      alert('发布失败，请重试');
+      alert(`发布失败: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -209,39 +258,35 @@ export default function NewsAdd() {
             {/* 文章标题 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                文章标题 *
+                中文标题 <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
-                placeholder="请输入文章标题"
+                placeholder="请输入中文标题"
               />
             </div>
 
-            {/* 文章描述 */}
+            {/* 英文标题 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                文章描述 * (最多300字)
+                英文标题 <span className="text-red-500">*</span>
               </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-                maxLength={300}
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white resize-none"
-                placeholder="请输入文章描述，最多300字"
+              <input
+                type="text"
+                value={formData.titleEn}
+                onChange={(e) => handleInputChange('titleEn', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
+                placeholder="Please enter English title"
               />
-              <div className="text-right text-sm text-gray-500 mt-1">
-                {formData.description.length}/300
-              </div>
             </div>
 
             {/* 首页配图 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                首页配图
+                首页配图 <span className="text-red-500">*</span>
               </label>
               <div className="space-y-2">
                 <input
@@ -294,24 +339,10 @@ export default function NewsAdd() {
               </div>
             </div>
 
-            {/* 发布人 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                发布人
-              </label>
-              <input
-                type="text"
-                value={formData.publisher}
-                onChange={(e) => handleInputChange('publisher', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
-                placeholder="请输入发布人姓名"
-              />
-            </div>
-
             {/* 发布时间 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                发布时间
+                发布时间 <span className="text-red-500">*</span>
               </label>
               <input
                 type="datetime-local"
@@ -345,7 +376,7 @@ export default function NewsAdd() {
         <div className="lg:col-span-3 bg-white dark:bg-zinc-800 rounded-lg shadow p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              文章内容
+              文章内容 <span className="text-red-500">*</span>
             </h2>
             
             {/* 语言切换 */}
@@ -386,7 +417,7 @@ export default function NewsAdd() {
           
           {/* 内容提示 */}
           <div className="mt-2 text-sm text-gray-500">
-            当前编辑: {currentLang === 'zh' ? '中文内容' : '英文内容'}
+            当前编辑: {currentLang === 'zh' ? '中文内容 (必填)' : '英文内容 (必填)'}
           </div>
         </div>
       </div>
