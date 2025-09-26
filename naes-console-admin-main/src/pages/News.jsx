@@ -15,6 +15,9 @@ export default function News() {
   // 状态管理
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false); // 删除中状态
+  const [offlining, setOfflining] = useState(false); // 下架中状态
+  const [selectedRows, setSelectedRows] = useState([]); // 选中的行
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10
@@ -111,18 +114,39 @@ export default function News() {
   const handleDelete = (e, record) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // 防止重复点击
+    if (deleting) {
+      return;
+    }
+    
     setConfirmDialog({
       open: true,
-      title: t('news.delete'),
-      message: t('news.confirm.delete'),
+      title: '删除文章',
+      message: `确定要删除文章「${record.title}」吗？
+      
+• 删除后数据将无法恢复
+• 此操作不可逆转，请谨慎操作`,
       onConfirm: async () => {
+        setDeleting(true); // 开始删除
         try {
-          await deleteNews(record.article_id); // 使用 article_id 而不是 id
-          loadData();
+          console.log('删除文章，ID:', record.id, '标题:', record.title); // 调试信息
+          await deleteNews(record.id); // 删除使用数字ID
+          
+          // 删除成功后刷新数据
+          await loadData();
           setConfirmDialog({ open: false });
+          
+          // 显示成功提示
+          console.log('文章删除成功:', record.title);
         } catch (error) {
           console.error('删除失败:', error);
-          alert('删除失败，请重试');
+          // 显示详细错误信息
+          const errorMessage = error.response?.data?.cause || error.response?.data?.message || error.message || '删除失败';
+          alert(`删除失败：${errorMessage}，请重试`);
+          console.error('删除错误详情:', error.response?.data);
+        } finally {
+          setDeleting(false); // 删除结束
         }
       }
     });
@@ -132,18 +156,40 @@ export default function News() {
   const handleOffline = (e, record) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // 防止重复点击
+    if (offlining) {
+      return;
+    }
+    
     setConfirmDialog({
       open: true,
-      title: t('news.offline'),
-      message: t('news.confirm.offline'),
+      title: '下架文章',
+      message: `确定要下架文章「${record.title}」吗？
+      
+• 下架后文章状态将变为草稿
+• 文章将不再对外展示
+• 可以重新编辑后再次发布`,
       onConfirm: async () => {
+        setOfflining(true); // 开始下架
         try {
-          await offlineNews(record.article_id); // 使用 article_id 而不是 id
-          loadData();
+          console.log('下架文章，ID:', record.id, '标题:', record.title); // 调试信息
+          await offlineNews(record.id); // 下架使用数字ID，只传递status
+          
+          // 下架成功后刷新数据
+          await loadData();
           setConfirmDialog({ open: false });
+          
+          // 显示成功提示
+          console.log('文章下架成功:', record.title);
         } catch (error) {
           console.error('下架失败:', error);
-          alert('下架失败，请重试');
+          // 显示详细错误信息
+          const errorMessage = error.response?.data?.cause || error.response?.data?.message || error.message || '下架失败';
+          alert(`下架失败：${errorMessage}，请重试`);
+          console.error('下架错误详情:', error.response?.data);
+        } finally {
+          setOfflining(false); // 下架结束
         }
       }
     });
@@ -153,7 +199,8 @@ export default function News() {
   const handleEdit = (e, record) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/news/edit/${record.article_id}`); // 使用 article_id 而不是 id
+    console.log('点击编辑，跳转到:', `/news/edit/${record.id}`); // 使用数字ID
+    navigate(`/news/edit/${record.id}`); // 使用数字ID而不是article_id
   };
 
   // 新增文章
@@ -267,14 +314,21 @@ export default function News() {
               <button
                 type="button"
                 onClick={(e) => handleOffline(e, record)}
-                className="px-2 py-1 text-xs bg-orange-100 text-orange-700 rounded hover:bg-orange-200 dark:bg-orange-900 dark:text-orange-200 dark:hover:bg-orange-800"
+                disabled={offlining} // 下架过程中禁用按钮
+                className={`px-2 py-1 text-xs rounded transition-colors ${
+                  offlining 
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500'
+                    : 'bg-orange-100 text-orange-700 hover:bg-orange-200 dark:bg-orange-900 dark:text-orange-200 dark:hover:bg-orange-800'
+                }`}
+                title={offlining ? '下架中...' : '下架文章'}
               >
-                {t('news.offline')}
+                {offlining ? '下架中...' : t('news.offline')}
               </button>
               <button
                 type="button"
-                disabled
-                className="px-2 py-1 text-xs bg-gray-100 text-gray-400 rounded cursor-not-allowed dark:bg-gray-700 dark:text-gray-500"
+                onClick={(e) => handleEdit(e, record)}
+                className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 transition-colors"
+                title="编辑文章"
               >
                 {t('news.edit')}
               </button>
@@ -285,13 +339,15 @@ export default function News() {
                 type="button"
                 disabled
                 className="px-2 py-1 text-xs bg-gray-100 text-gray-400 rounded cursor-not-allowed dark:bg-gray-700 dark:text-gray-500"
+                title="只有已发布的文章才能下架"
               >
                 {t('news.offline')}
               </button>
               <button
                 type="button"
                 onClick={(e) => handleEdit(e, record)}
-                className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800"
+                className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 transition-colors"
+                title="编辑文章"
               >
                 {t('news.edit')}
               </button>
@@ -300,9 +356,15 @@ export default function News() {
           <button
             type="button"
             onClick={(e) => handleDelete(e, record)}
-            className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 dark:bg-red-900 dark:text-red-200 dark:hover:bg-red-800"
+            disabled={deleting} // 删除过程中禁用按钮
+            className={`px-2 py-1 text-xs rounded transition-colors ${
+              deleting 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-700 dark:text-gray-500'
+                : 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:text-red-200 dark:hover:bg-red-800'
+            }`}
+            title={deleting ? '删除中...' : '删除文章（不可恢复）'}
           >
-            {t('news.delete')}
+            {deleting ? '删除中...' : t('news.delete')}
           </button>
         </div>
       )
@@ -416,10 +478,17 @@ export default function News() {
       <ConfirmDialog
         open={confirmDialog.open}
         title={confirmDialog.title}
-        message={confirmDialog.message}
-        onConfirm={confirmDialog.onConfirm}
-        onCancel={() => setConfirmDialog({ open: false })}
-      />
+        onOk={confirmDialog.onConfirm}
+        onCancel={() => {
+          setConfirmDialog({ open: false });
+          setDeleting(false); // 取消时重置删除状态
+          setOfflining(false); // 取消时重置下架状态
+        }}
+        okText={deleting ? '删除中...' : offlining ? '下架中...' : '确认'}
+        cancelText="取消"
+      >
+        {confirmDialog.message}
+      </ConfirmDialog>
     </div>
   );
 }

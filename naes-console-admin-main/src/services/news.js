@@ -112,7 +112,7 @@ export async function createNews(newsData) {
 // ================================
 /**
  * 查询新闻详情
- * @param {string} id - 新闻ID
+ * @param {string|number} id - 新闻ID（数字类型的主键ID）
  * @returns {Promise<Object>} 新闻详情数据
  */
 export async function fetchNewsDetail(id) {
@@ -126,14 +126,15 @@ export async function fetchNewsDetail(id) {
       throw new Error('新闻不存在')
     }
 
-    // 转换数据格式
+    // 根据API文档转换数据格式
+    // API返回格式: {id, article_id, "zh-CN": {title, body}, "en-US": {title, body}}
     return {
       id: data.id,
       article_id: data.article_id,
-      title: data.title?.['zh-CN'] || '',
-      titleEn: data.title?.['en-US'] || '',
-      content: data.content?.['zh-CN'] || '',
-      contentEn: data.content?.['en-US'] || '',
+      title: data['zh-CN']?.title || '',
+      titleEn: data['en-US']?.title || '',
+      content: data['zh-CN']?.body || '',
+      contentEn: data['en-US']?.body || '',
       cover_image_url: data.cover_image_url,
       status: data.status === 1 ? 'published' : 'draft',
       publish_date: data.publish_date,
@@ -150,27 +151,47 @@ export async function fetchNewsDetail(id) {
 // ================================
 /**
  * 编辑新闻
- * @param {string} articleId - 文章ID
- * @param {Object} newsData - 新闻数据
+ * @param {string|number} id - 新闻数字ID（主键，非article_id）
+ * @param {Object} newsData - 新闻数据（只传递修改的字段）
  * @returns {Promise<Object>} 编辑结果
  */
-export async function editNews(articleId, newsData) {
+export async function editNews(id, newsData) {
   try {
-    // 转换数据格式以匹配API要求
+    // 根据API文档，编辑接口需要数字类型的id作为必填字段
     const apiData = {
-      article_id: articleId,
-      title: {
+      id: parseInt(id) // 确保是数字类型
+    }
+
+    // 只添加实际传递的字段到API请求中
+    if (newsData.title || newsData.titleEn) {
+      apiData.title = {
         'zh-CN': newsData.title || '',
         'en-US': newsData.titleEn || newsData.title || ''
-      },
-      cover_image_url: newsData.cover_image_url || newsData.coverImageUrl || '',
-      content: {
+      }
+    }
+
+    if (newsData.cover_image_url || newsData.coverImageUrl) {
+      apiData.cover_image_url = newsData.cover_image_url || newsData.coverImageUrl
+    }
+
+    if (newsData.content || newsData.contentEn) {
+      apiData.content = {
         'zh-CN': newsData.content || '',
         'en-US': newsData.contentEn || newsData.content || ''
-      },
-      status: newsData.status === 'published' ? 1 : 0,
-      publish_date: newsData.publish_date || newsData.publishTime || dayjs().toISOString()
+      }
     }
+
+    // 状态字段处理
+    if ('status' in newsData) {
+      apiData.status = typeof newsData.status === 'number' ? newsData.status : (newsData.status === 'published' ? 1 : 0)
+    }
+
+    // 发布时间字段处理
+    if (newsData.publish_date || newsData.publishTime) {
+      apiData.publish_date = newsData.publish_date || newsData.publishTime
+    }
+
+    console.log('编辑新闻API请求数据:', apiData) // 调试信息
 
     const response = await http.post('/naes/console/news/edit', apiData, {
       loadingKey: 'editNews'
@@ -191,13 +212,14 @@ export async function editNews(articleId, newsData) {
 // ================================
 /**
  * 删除新闻
- * @param {string} articleId - 文章ID
+ * @param {string|number} id - 新闻数字ID（主键）
  * @returns {Promise<Object>} 删除结果
  */
-export async function deleteNews(articleId) {
+export async function deleteNews(id) {
   try {
+    // 根据API文档，删除接口需要传递数字数组作为请求体
     const response = await http.delete('/naes/console/news', {
-      params: { article_id: articleId },
+      data: [parseInt(id)], // 传递数字数组
       loadingKey: 'deleteNews'
     })
 
@@ -221,11 +243,10 @@ export async function getNewsList(params = {}) {
   const apiParams = {
     pageNo: params.page || 1,
     pageSize: params.pageSize || 10,
-    status: params.status === 'draft' ? 0 : (params.status === 'published' ? 1 : 1) // 默认查询已发布
+    status: params.status === 'draft' ? 0 : 1 // 默认显示发布状态
   }
 
-  // 注意：当前API可能不支持关键词和日期筛选，这里只传递基本的分页和状态参数
-  // 如果后续API支持更多筛选条件，可以在这里添加
+  console.log('转换后的API参数:', apiParams); // 调试信息
 
   return fetchNewsList(apiParams)
 }
@@ -237,10 +258,9 @@ export async function getNewsById(id) {
 
 // 兼容旧版本的更新文章
 export async function updateNews(id, data) {
-  // 先通过id获取article_id
+  // 直接使用数字ID进行编辑
   try {
-    const detail = await fetchNewsDetail(id)
-    return editNews(detail.article_id, data)
+    return editNews(id, data)
   } catch (error) {
     console.error('更新新闻失败:', error)
     throw error
@@ -250,10 +270,9 @@ export async function updateNews(id, data) {
 // 兼容旧版本的下架文章
 export async function offlineNews(id) {
   try {
-    const detail = await fetchNewsDetail(id)
-    return editNews(detail.article_id, {
-      ...detail,
-      status: 'draft'
+    // 下架只需要传递status: 0即可
+    return editNews(id, {
+      status: 0 // 0表示草稿/下架状态
     })
   } catch (error) {
     console.error('下架新闻失败:', error)
