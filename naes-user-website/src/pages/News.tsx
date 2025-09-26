@@ -38,13 +38,13 @@ const News: React.FC = () => {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
             <h1 className="mb-4 text-4xl font-bold text-gray-900">
-              {t('news.title', 'News & Updates')}
+              {i18n.language === 'zh' ? '新闻动态' : 'News & Updates'}
             </h1>
             <p className="mx-auto max-w-3xl text-xl text-gray-600">
-              {t(
-                'news.subtitle',
-                'Stay updated with the latest news and developments from Nature Essential',
-              )}
+              {i18n.language === 'zh' 
+                ? '了解来自天然必需品的最新新闻和发展动态'
+                : 'Stay updated with the latest news and developments from Nature Essential'
+              }
             </p>
           </div>
 
@@ -177,7 +177,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ item, language }) => {
           <div className="mb-8 text-sm leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-white md:text-base">
             <MarkdownRenderer 
               content={truncatedDescription}
-              className="line-clamp-3"
+              className="line-clamp-3 [&_*]:text-gray-600 group-hover:[&_*]:text-white [&_*]:transition-colors [&_*]:duration-300"
             />
           </div>
 

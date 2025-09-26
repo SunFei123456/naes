@@ -30,7 +30,7 @@ const Footer = () => {
                 </div>
 
                 {/* 右侧区域 */}
-                <div className="md:w-2/3 text-right text-base">
+                <div className="md:w-2/3 mt-12 text-right text-base">
                     <p className="text-gray-400 mb-2">{t('footer.right.phone')}</p>
                     <p className="text-gray-400">{t('footer.right.copyright')}</p>
                 </div>

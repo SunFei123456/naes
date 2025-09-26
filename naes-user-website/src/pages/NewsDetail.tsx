@@ -78,7 +78,7 @@ const NewsDetail: React.FC = () => {
           <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-sm">
             {/* 文章头部信息 */}
             <header className="px-8 pt-12 pb-8 border-b border-gray-100">
-              <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 leading-tight">
+              <h1 className="text-3xl md:text-4xl font-bold  text-gray-900 leading-tight">
                 {newsDetail?.title}
               </h1>
               
