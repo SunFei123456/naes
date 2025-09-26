@@ -193,7 +193,11 @@ const Header = () => {
                   {t('header.products')}
                 </Link>
               </li>
-
+              <li>
+                <Link to="/news" className={getNavLinkClass('/news')}>
+                  {t('header.news')}
+                </Link>
+              </li>
               <li>
                 <Link to="/contact" className={getNavLinkClass('/contact')}>
                   {t('header.contact')}

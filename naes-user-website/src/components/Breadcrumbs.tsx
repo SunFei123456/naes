@@ -4,13 +4,18 @@ import { ChevronRight, Home } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useProductTranslations } from '@/hooks/useProductTranslations';
 
-const Breadcrumbs = () => {
+interface BreadcrumbsProps {
+  newsTitle?: string; // 新闻标题，用于显示在面包屑中
+}
+
+const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ newsTitle }) => {
   const location = useLocation();
   const { t, i18n } = useTranslation(['common', 'qa', 'products']);
   
   // 获取当前路径中的产品ID
   const pathnames = location.pathname.split('/').filter(Boolean);
   const isProductDetail = pathnames[0] === 'products' && pathnames[1];
+  const isNewsDetail = pathnames[0] === 'news' && pathnames[1];
   const productId = isProductDetail ? pathnames[1] : null;
   
   // 只在产品详情页面时使用产品翻译
@@ -66,6 +71,7 @@ const Breadcrumbs = () => {
       qa: i18n.language === 'zh' ? '常见问题' : 'Q&A',
       about: i18n.language === 'zh' ? '关于我们' : 'About Us',
       contact: i18n.language === 'zh' ? '联系我们' : 'Contact',
+      news: i18n.language === 'zh' ? '新闻动态' : 'News',
     };
 
     return pathnames.map((name, index) => {
@@ -94,6 +100,11 @@ const Breadcrumbs = () => {
         displayName = productTranslations.name;
       }
 
+      // 处理新闻详情页面，显示标题前6个字
+      if (pathnames[0] === 'news' && index === 1 && newsTitle) {
+        displayName = newsTitle.length > 6 ? newsTitle.substring(0, 6) + '...' : newsTitle;
+      }
+
       // 如果没有找到映射，使用默认格式化
       if (!displayName) {
         displayName = name
@@ -107,6 +118,7 @@ const Breadcrumbs = () => {
         displayName,
         isProduct: index > 0 && pathnames[0] === 'products',
         isQa: pathnames[0] === 'qa',
+        isNews: pathnames[0] === 'news',
       };
     });
   }, [location.pathname, i18n.language, t, productTranslations]);
@@ -134,7 +146,7 @@ const Breadcrumbs = () => {
             </li>
 
             {breadcrumbs.map(
-              ({ routeTo, isLast, displayName, isProduct, isQa }, index) => (
+              ({ routeTo, isLast, displayName, isProduct, isQa, isNews }, index) => (
                 <li key={routeTo} className="flex items-center">
                   {/* 分隔符 */}
                   <ChevronRight
@@ -156,6 +168,8 @@ const Breadcrumbs = () => {
                           ? '/products'
                           : isQa && index === 2
                             ? `/qa/${breadcrumbs[1]?.routeTo.split('/')[2]}`
+                          : isNews && index === 1
+                            ? '/news'
                             : routeTo
                       }
                       className="group max-w-xs truncate rounded-lg px-3 py-2 text-sm font-medium text-gray-600 shadow-sm transition-all duration-200 hover:bg-white hover:text-blue-600 hover:shadow-md"

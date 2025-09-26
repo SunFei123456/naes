@@ -1,18 +1,8 @@
 /* Simple API wrapper using fetch with Vite base URL */
 function getBaseUrl(): string {
-  const w: any = (globalThis as any)?.window;
-  const runtimeBase: string | undefined = w?.__API_BASE_URL;
-  let lsBase: string | undefined;
-  try {
-    lsBase = w?.localStorage?.getItem?.('API_BASE_URL') || undefined;
-  } catch {}
   const envBase = (import.meta as any).env?.VITE_API_BASE_URL as string | undefined;
-  // 在开发环境强制走 Vite 代理，避免浏览器直连引发 CORS/证书问题
-  if (import.meta.env.DEV) {
-    return '/api';
-  }
-  const fallback = 'https://beta.natureessential.ltd/api';
-  let base = (runtimeBase || lsBase || envBase || fallback) || '';
+  const fallback = '/api';
+  let base = (envBase || fallback) || '';
   base = base.replace(/\/$/, '');
   return base;
 }
@@ -25,14 +15,12 @@ export interface RequestOptions {
   body?: any;
   // when expecting binary
   responseType?: 'json' | 'blob' | 'text';
-  // internal: prevent infinite retry
-  __noRetryHtmlAsApi?: boolean;
 }
 
 async function request<T = any>(path: string, options: RequestOptions = {}): Promise<T> {
   const base = getBaseUrl();
   const url = `${base}${path.startsWith('/') ? path : `/${path}`}`;
-  const { method = 'GET', headers = {}, body, responseType = 'json', __noRetryHtmlAsApi } = options;
+  const { method = 'GET', headers = {}, body, responseType = 'json' } = options;
 
   const init: RequestInit = {
     method,
@@ -53,20 +41,7 @@ async function request<T = any>(path: string, options: RequestOptions = {}): Pro
 
   let res = await fetch(url, init);
 
-  // 某些情况下未命中代理会返回前端 index.html（content-type: text/html）
-  const ct = res.headers.get('content-type') || '';
-  const isHtml = ct.includes('text/html');
-  if (import.meta.env.DEV && isHtml && !__noRetryHtmlAsApi && base !== '/api') {
-    // 尝试用 /api 作为基准重试一次
-    const retryUrl = `/api${path.startsWith('/') ? path : `/${path}`}`;
-    // eslint-disable-next-line no-console
-    console.warn('[api] got HTML response, retry via proxy:', retryUrl);
-    try {
-      res = await fetch(retryUrl, init);
-    } catch (e) {
-      // 保持原始错误抛出
-    }
-  }
+
 
   if (!res.ok && res.status !== 400) {
     // 400 用于验证码失败时由上层处理

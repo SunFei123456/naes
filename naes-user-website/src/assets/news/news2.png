@@ -1,0 +1,39 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="blueberryGradient" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4338ca;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#312e81;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="#f0f9ff"/>
+  
+  <!-- Blueberries -->
+  <circle cx="120" cy="120" r="25" fill="url(#blueberryGradient)"/>
+  <circle cx="180" cy="100" r="22" fill="url(#blueberryGradient)"/>
+  <circle cx="240" cy="130" r="28" fill="url(#blueberryGradient)"/>
+  <circle cx="160" cy="160" r="24" fill="url(#blueberryGradient)"/>
+  <circle cx="200" cy="180" r="26" fill="url(#blueberryGradient)"/>
+  
+  <!-- Blueberry crowns -->
+  <path d="M120 95 L115 90 L120 85 L125 90 Z" fill="#059669"/>
+  <path d="M180 78 L175 73 L180 68 L185 73 Z" fill="#059669"/>
+  <path d="M240 102 L235 97 L240 92 L245 97 Z" fill="#059669"/>
+  <path d="M160 136 L155 131 L160 126 L165 131 Z" fill="#059669"/>
+  <path d="M200 154 L195 149 L200 144 L205 149 Z" fill="#059669"/>
+  
+  <!-- Leaves -->
+  <ellipse cx="80" cy="140" rx="15" ry="8" fill="url(#leafGradient)" transform="rotate(-30 80 140)"/>
+  <ellipse cx="280" cy="110" rx="18" ry="10" fill="url(#leafGradient)" transform="rotate(45 280 110)"/>
+  <ellipse cx="320" cy="180" rx="12" ry="6" fill="url(#leafGradient)" transform="rotate(-15 320 180)"/>
+  
+  <!-- Text -->
+  <text x="200" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1e40af">Blueberries</text>
+  <text x="200" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#64748b">Rich in Antioxidants</text>
+</svg>

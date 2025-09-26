@@ -50,7 +50,10 @@ const DataTablePro = ({
       size: col.width ? Number(col.width) : 160,
       minSize: col.minWidth ? Number(col.minWidth) : 96,
       maxSize: col.maxWidth ? Number(col.maxWidth) : 640,
-      enableSorting: true,
+      enableSorting: col.enableSorting !== false,
+      meta: {
+        align: col.align || 'center'
+      }
     }));
   }, [columns]);
 
@@ -105,7 +108,8 @@ const DataTablePro = ({
                 <th
                   key={header.id}
                   className={`
-                    group relative px-3 py-2 text-left font-medium text-gray-700 dark:text-gray-300
+                    group relative px-3 py-2 font-medium text-gray-700 dark:text-gray-300
+                    ${header.column.columnDef.meta?.align === 'left' ? 'text-left' : header.column.columnDef.meta?.align === 'right' ? 'text-right' : 'text-center'}
                     ${header.column.getCanSort() ? 'cursor-pointer select-none' : ''}
                     ${header.column.getIsSorted() ? 'text-blue-600 dark:text-blue-400' : ''}
                     align-middle
@@ -113,18 +117,18 @@ const DataTablePro = ({
                   onClick={header.column.getToggleSortingHandler()}
                   style={{ width: header.getSize() }}
                 >
-                  <div className="flex items-center justify-between gap-1">
+                  <div className={`flex items-center gap-1 ${
+                    header.column.columnDef.meta?.align === 'left' ? 'justify-start' : 
+                    header.column.columnDef.meta?.align === 'right' ? 'justify-end' : 'justify-center'
+                  }`}>
                     <div className="truncate">
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </div>
                     {header.column.getCanSort() && (
-                      <span className="ml-1 inline-flex items-center gap-1 text-gray-400">
+                      <span className="inline-flex items-center text-gray-400">
                         {header.column.getIsSorted() === 'asc' && <Icon name="sortUp" className="w-3.5 h-3.5" />}
                         {header.column.getIsSorted() === 'desc' && <Icon name="sortDown" className="w-3.5 h-3.5" />}
                         {!header.column.getIsSorted() && <Icon name="sort" className="w-3.5 h-3.5" />}
-                        <span className="text-[11px]">
-                          {header.column.getIsSorted() === 'asc' ? 'Asc' : header.column.getIsSorted() === 'desc' ? 'Desc' : 'Sort'}
-                        </span>
                       </span>
                     )}
                   </div>
@@ -154,7 +158,10 @@ const DataTablePro = ({
               {row.getVisibleCells().map(cell => (
                 <td
                   key={cell.id}
-                  className={`px-3 ${tdPad} align-middle`}
+                  className={`px-3 ${tdPad} align-middle ${
+                    cell.column.columnDef.meta?.align === 'left' ? 'text-left' : 
+                    cell.column.columnDef.meta?.align === 'right' ? 'text-right' : 'text-center'
+                  }`}
                   style={{ width: cell.column.getSize() }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

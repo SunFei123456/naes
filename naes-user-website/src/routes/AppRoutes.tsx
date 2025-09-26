@@ -4,6 +4,8 @@ import Home from '../pages/Home';
 import WhyChooseUs from '../pages/WhyChooseUs';
 import Contact from '../pages/Contact';
 import Products from '../pages/Product';
+import News from '../pages/News';
+import NewsDetail from '../pages/NewsDetail';
 import ProductDetail from '@/pages/products/ProductDetailPage';
 
 const AppRoutes = () => {
@@ -36,12 +38,16 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/contact"
+        path="/news"
         element={
           <Layout>
-            <Contact />
+            <News />
           </Layout>
         }
+      />
+      <Route
+        path="/news/:id"
+        element={<NewsDetail />}
       />
       <Route
         path="/contact"
