@@ -42,7 +42,7 @@ const News: React.FC = () => {
             </h1>
             <p className="mx-auto max-w-3xl text-xl text-gray-600">
               {i18n.language === 'zh' 
-                ? '了解来自天然必需品的最新新闻和发展动态'
+                ? '了解来自杭州精然生物的最新新闻和发展动态'
                 : 'Stay updated with the latest news and developments from Nature Essential'
               }
             </p>
