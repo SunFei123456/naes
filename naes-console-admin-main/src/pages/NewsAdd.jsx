@@ -167,6 +167,7 @@ export default function NewsAdd() {
       
       if (result.success) {
         alert('草稿保存成功！');
+        navigate('/news'); // 保存草稿成功后返回新闻列表页面
       } else {
         throw new Error(result.error?.cause || '保存失败');
       }
@@ -235,15 +236,17 @@ export default function NewsAdd() {
   };
 
   return (
-    <div className="space-y-4">
-      {/* 返回按钮 */}
-      <div className="flex items-center">
-        <button
-          onClick={() => navigate('/news')}
-          className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-        >
-          <Icon name="arrow-left" className="w-5 h-5" />
-        </button>
+    <div className="space-y-6">
+      {/* 页面头部 - 返回按钮和标题 */}
+      <div className="flex items-center justify-between">
+          <button
+            onClick={() => navigate('/news')}
+            className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          >
+            <Icon name="arrow-left" className="w-4 h-4 mr-2" />
+            返回上一页
+          </button>
+         
       </div>
 
       {/* 主要内容区域 */}

@@ -22,9 +22,7 @@ const NewsDetail: React.FC = () => {
       setLoading(true);
       try {
         const response = await newsService.getNewsDetail(id, i18n.language === 'en' ? 'en-US' : 'zh-CN');
-        console.log('API Response:', response); // 调试日志
         if (response.code === 0) {
-          console.log('News Detail Data:', response.data); // 调试日志
           setNewsDetail(response.data);
         }
       } catch (error) {

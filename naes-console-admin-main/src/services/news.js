@@ -191,7 +191,6 @@ export async function editNews(id, newsData) {
       apiData.publish_date = newsData.publish_date || newsData.publishTime
     }
 
-    console.log('编辑新闻API请求数据:', apiData) // 调试信息
 
     const response = await http.post('/naes/console/news/edit', apiData, {
       loadingKey: 'editNews'
@@ -245,8 +244,6 @@ export async function getNewsList(params = {}) {
     pageSize: params.pageSize || 10,
     status: params.status === 'draft' ? 0 : 1 // 默认显示发布状态
   }
-
-  console.log('转换后的API参数:', apiParams); // 调试信息
 
   return fetchNewsList(apiParams)
 }

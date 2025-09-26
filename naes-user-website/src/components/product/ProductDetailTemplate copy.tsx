@@ -78,7 +78,6 @@ const ProductDetailTemplate: React.FC<Product> = (product) => {
                             product.image,
                           ]; // 其他产品使用默认图片
 
-  console.log('Primary Source for', product.id, ':', primary_source);
 
   return (
     <div className="min-h-screen">

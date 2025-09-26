@@ -63,9 +63,7 @@ export default function News() {
         ...searchParams
       };
       
-      console.log('请求参数:', params); // 调试信息
       const result = await getNewsList(params);
-      console.log('API返回结果:', result); // 调试信息
       
       setData(result.data);
       setTotal(result.total);
@@ -131,15 +129,11 @@ export default function News() {
       onConfirm: async () => {
         setDeleting(true); // 开始删除
         try {
-          console.log('删除文章，ID:', record.id, '标题:', record.title); // 调试信息
           await deleteNews(record.id); // 删除使用数字ID
           
           // 删除成功后刷新数据
           await loadData();
           setConfirmDialog({ open: false });
-          
-          // 显示成功提示
-          console.log('文章删除成功:', record.title);
         } catch (error) {
           console.error('删除失败:', error);
           // 显示详细错误信息
@@ -174,15 +168,12 @@ export default function News() {
       onConfirm: async () => {
         setOfflining(true); // 开始下架
         try {
-          console.log('下架文章，ID:', record.id, '标题:', record.title); // 调试信息
           await offlineNews(record.id); // 下架使用数字ID，只传递status
           
           // 下架成功后刷新数据
           await loadData();
           setConfirmDialog({ open: false });
           
-          // 显示成功提示
-          console.log('文章下架成功:', record.title);
         } catch (error) {
           console.error('下架失败:', error);
           // 显示详细错误信息
@@ -217,7 +208,6 @@ export default function News() {
       onConfirm: async () => {
         setPublishing(true); // 开始发布
         try {
-          console.log('发布文章，ID:', record.id, '标题:', record.title); // 调试信息
           // 使用editNews函数，只传递status: 1（已发布）
           await editNews(record.id, { status: 1 });
           
@@ -225,8 +215,6 @@ export default function News() {
           await loadData();
           setConfirmDialog({ open: false });
           
-          // 显示成功提示
-          console.log('文章发布成功:', record.title);
         } catch (error) {
           console.error('发布失败:', error);
           // 显示详细错误信息
@@ -244,7 +232,6 @@ export default function News() {
   const handleEdit = (e, record) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('点击编辑，跳转到:', `/news/edit/${record.id}`); // 使用数字ID
     navigate(`/news/edit/${record.id}`); // 使用数字ID而不是article_id
   };
 
@@ -470,7 +457,7 @@ export default function News() {
       />
 
       {/* 数据表格 */}
-      <div className="bg-white dark:bg-zinc-800 rounded-lg shadow overflow-hidden">
+      <div className="mt-4 bg-white dark:bg-zinc-800 rounded-lg shadow overflow-hidden">
         <DataTablePro
           columns={columns}
           data={data}

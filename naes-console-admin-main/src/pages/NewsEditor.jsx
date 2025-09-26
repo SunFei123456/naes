@@ -57,7 +57,6 @@ export default function NewsEditor() {
     setLoading(true);
     try {
       const article = await fetchNewsDetail(id);
-      console.log('加载的文章数据:', article); // 调试信息
       setFormData({
         title: article.title || '',
         titleEn: article.titleEn || '',
@@ -70,7 +69,6 @@ export default function NewsEditor() {
         zh: article.content || '',
         en: article.contentEn || ''
       });
-      console.log('设置的表单数据 - 发布时间:', article.publish_date ? dayjs(article.publish_date).format('YYYY-MM-DDTHH:mm') : '无发布时间'); // 调试信息
     } catch (error) {
       console.error('加载文章失败:', error);
       navigate('/news');
