@@ -21,31 +21,22 @@ const NewsDetail: React.FC = () => {
       
       setLoading(true);
       try {
-        const response = await newsService.getNewsDetail(id);
-        if (response.code === 200) {
+        const response = await newsService.getNewsDetail(id, i18n.language === 'en' ? 'en-US' : 'zh-CN');
+        console.log('API Response:', response); // 调试日志
+        if (response.code === 0) {
+          console.log('News Detail Data:', response.data); // 调试日志
           setNewsDetail(response.data);
         }
       } catch (error) {
         console.error('Failed to fetch news detail:', error);
+        setNewsDetail(null);
       } finally {
         setLoading(false);
       }
     };
 
     fetchNewsDetail();
-  }, [id]);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const language = i18n.language as 'zh' | 'en';
-    return date.toLocaleDateString(language === 'zh' ? 'zh-CN' : 'en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-
+  }, [id, i18n.language]);
 
   if (loading) {
     return (
@@ -76,66 +67,44 @@ const NewsDetail: React.FC = () => {
   }
 
   const language = i18n.language as 'zh' | 'en';
-  const content = newsDetail[language];
 
   return (
     <Layout>
       <div className="mt-header h-[60px] w-full "></div>
-      <Breadcrumbs newsTitle={content.title} />
+      <Breadcrumbs newsTitle={newsDetail?.title || ''} />
       
       <div className="bg-gray-50 min-h-screen">
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-sm">
             {/* 文章头部信息 */}
             <header className="px-8 pt-12 pb-8 border-b border-gray-100">
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 leading-tight">
-              {content.title}
-            </h1>
-            
-            <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600">
-              <div className="flex items-center">
-                <svg className="mr-2 h-4 w-4 fill-current" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {language === 'zh' ? '发布时间：' : 'Published: '}
-                {formatDate(newsDetail.publish_details.publish_date)}
-              </div>
+              <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 leading-tight">
+                {newsDetail?.title}
+              </h1>
               
-              <div className="flex items-center">
-                <svg className="mr-2 h-4 w-4 fill-current" viewBox="0 0 20 20">
-                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {language === 'zh' ? '阅读量：' : 'Views: '}
-                {newsDetail.publish_details.view_count.toLocaleString()}
+              <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600">
+                {/* 阅读量 - 有数据时才显示 */}
+                {newsDetail?.view_count && (
+                  <div className="flex items-center">
+                    <svg className="mr-2 h-4 w-4 fill-current" viewBox="0 0 20 20">
+                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                      <path
+                        fillRule="evenodd"
+                        d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    {language === 'zh' ? '阅读量：' : 'Views: '}
+                    {newsDetail.view_count.toLocaleString()}
+                  </div>
+                )}
               </div>
-              
-              <div className="flex items-center">
-                <svg className="mr-2 h-4 w-4 fill-current" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                {language === 'zh' ? '发布者：' : 'Publisher: '}
-                {newsDetail.publish_details.publisher}
-              </div>
-            </div>
-          </header>
+            </header>
 
             {/* 文章内容 */}
             <article className="px-8 py-8">
               <MarkdownRenderer 
-                content={content.body}
+                content={newsDetail?.body || ''}
                 className="text-gray-700 leading-relaxed"
               />
             </article>

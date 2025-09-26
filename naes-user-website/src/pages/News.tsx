@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -6,10 +6,21 @@ import newsbanner from '@/assets/images/news-banner.png';
 import { useNewsList } from '@/hooks/useNews';
 import { NewsItem } from '@/types/news';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 const News: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { news, loading } = useNewsList();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { news, loading, pagination } = useNewsList({ 
+    pageNo: currentPage, 
+    pageSize: 5 
+  });
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // 滚动到页面顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="w-full">
@@ -41,7 +52,7 @@ const News: React.FC = () => {
           {loading && <LoadingSpinner className="py-12" />}
 
           {/* 新闻列表 */}
-          {!loading &&
+          {!loading && news.length > 0 &&
             news.map((item: NewsItem) => (
               <NewsCard
                 key={item.article_id}
@@ -49,6 +60,68 @@ const News: React.FC = () => {
                 language={i18n.language as 'zh' | 'en'}
               />
             ))}
+          
+          {/* 空状态 */}
+          {!loading && news.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">
+                {i18n.language === 'zh' ? '暂无新闻内容' : 'No news available'}
+              </p>
+            </div>
+          )}
+          
+          {/* 分页组件 */}
+          {!loading && pagination.totalPages > 1 && (
+            <div className="flex justify-center mt-12">
+              <div className="flex space-x-2">
+                {/* 上一页按钮 */}
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 rounded-lg border transition-colors ${
+                    currentPage === 1
+                      ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {i18n.language === 'zh' ? '上一页' : 'Previous'}
+                </button>
+                
+                {/* 页码按钮 */}
+                {Array.from({ length: pagination.totalPages }, (_, index) => {
+                  const page = index + 1;
+                  const isActive = page === currentPage;
+                  
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-4 py-2 rounded-lg border transition-colors ${
+                        isActive
+                          ? 'bg-[#12994f] text-white border-[#12994f]'
+                          : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
+                
+                {/* 下一页按钮 */}
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === pagination.totalPages}
+                  className={`px-4 py-2 rounded-lg border transition-colors ${
+                    currentPage === pagination.totalPages
+                      ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                      : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {i18n.language === 'zh' ? '下一页' : 'Next'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -71,6 +144,11 @@ const NewsCard: React.FC<NewsCardProps> = ({ item, language }) => {
     });
   };
 
+  // 截断描述内容到150字符
+  const truncatedDescription = item.description.length > 150 
+    ? item.description.substring(0, 150) + '...' 
+    : item.description;
+
   return (
     <div className="group mb-12 bg-[#eef2f5] p-6 transition-all duration-300 hover:bg-[#12994f]">
       <div className="flex flex-col md:flex-row">
@@ -89,16 +167,19 @@ const NewsCard: React.FC<NewsCardProps> = ({ item, language }) => {
         <div className="pl-8 md:w-2/3 lg:w-3/4">
           {/* 标题 */}
           <h3 className="mb-6 text-xl font-bold leading-tight text-gray-900 transition-colors duration-300 group-hover:text-white md:text-2xl">
-            {item.title[language]}
+            {item.title}
           </h3>
 
           {/* 分割线 */}
           <div className="mb-6 h-px bg-gray-300 transition-colors duration-300 group-hover:bg-white/30"></div>
 
           {/* 描述 */}
-          <p className="mb-8 line-clamp-3 text-sm leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-white md:text-base">
-            {item.description[language]}
-          </p>
+          <div className="mb-8 text-sm leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-white md:text-base">
+            <MarkdownRenderer 
+              content={truncatedDescription}
+              className="line-clamp-3"
+            />
+          </div>
 
           <div className="flex items-center justify-between pt-4">
             <div className="flex items-center text-sm text-gray-500 transition-colors duration-300 group-hover:text-white">
