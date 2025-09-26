@@ -37,7 +37,7 @@ export async function fetchNewsList({
     const data = response.data
     
     // 转换数据格式以适配现有组件
-    const list = (data.data?.list || []).map(item => ({
+    const list = (data.data || []).map(item => ({
       id: item.id,
       article_id: item.article_id,
       title: item.title?.['zh-CN'] || '',
@@ -221,8 +221,11 @@ export async function getNewsList(params = {}) {
   const apiParams = {
     pageNo: params.page || 1,
     pageSize: params.pageSize || 10,
-    status: params.status === 'draft' ? 0 : 1
+    status: params.status === 'draft' ? 0 : (params.status === 'published' ? 1 : 1) // 默认查询已发布
   }
+
+  // 注意：当前API可能不支持关键词和日期筛选，这里只传递基本的分页和状态参数
+  // 如果后续API支持更多筛选条件，可以在这里添加
 
   return fetchNewsList(apiParams)
 }
