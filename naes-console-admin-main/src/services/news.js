@@ -15,18 +15,30 @@ import dayjs from 'dayjs'
  * @param {number} params.pageNo - 页码，从1开始
  * @param {number} params.pageSize - 每页数量，最大1000
  * @param {number} params.status - 状态：0草稿，1发布（默认1）
+ * @param {string} params.startTime - 开始时间
+ * @param {string} params.endTime - 结束时间
  * @returns {Promise<Object>} 新闻列表数据
  */
 export async function fetchNewsList({
   pageNo = 1,
   pageSize = 10,
-  status = 1
+  status = 1,
+  startTime,
+  endTime
 } = {}) {
   try {
     const params = {
       pageNo,
       pageSize,
       status
+    }
+
+    if (startTime) {
+      params.startTime = startTime
+    }
+
+    if (endTime) {
+      params.endTime = endTime
     }
 
     const response = await http.get('/naes/console/news/list', {
@@ -242,7 +254,9 @@ export async function getNewsList(params = {}) {
   const apiParams = {
     pageNo: params.page || 1,
     pageSize: params.pageSize || 10,
-    status: params.status === 'draft' ? 0 : 1 // 默认显示发布状态
+    status: params.status === 'draft' ? 0 : 1, // 默认显示发布状态
+    startTime: params.startDate, // 适配 startDate
+    endTime: params.endDate // 适配 endDate
   }
 
   return fetchNewsList(apiParams)
