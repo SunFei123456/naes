@@ -71,5 +71,14 @@
   "news.editor.publish": "发布",
   "news.editor.cancel": "取消",
   "news.confirm.delete": "确定要删除这篇文章吗？",
-  "news.confirm.offline": "确定要下架这篇文章吗？下架后文章状态将变为草稿。"
+  "news.confirm.offline": "确定要下架这篇文章吗？下架后文章状态将变为草稿。",
+  "search.keywordPlaceholder": "请输入关键词",
+  "search.startDate": "开始日期",
+  "search.endDate": "结束日期",
+  "news.coverImage": "封面图",
+  "news.noImage": "无图片",
+  "news.noData": "暂无新闻数据",
+  "news.coverPreview": "封面预览",
+  "common.preview": "预览",
+  "common.close": "关闭"
 }

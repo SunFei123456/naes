@@ -262,7 +262,7 @@ export default function News() {
     },
     {
       key: 'cover_image_url',
-      title: '封面图',
+      title: t('news.coverImage'),
       dataIndex: 'cover_image_url',
       width: 120,
       enableSorting: false,
@@ -271,8 +271,8 @@ export default function News() {
           {value ? (
             <img
               src={value}
-              alt="封面图"
-              title="点击预览"
+              alt={t('news.coverImage')}
+              title={t('common.preview')}
               className="w-16 h-12 object-cover rounded border cursor-zoom-in"
               onClick={() => setPreview({ open: true, url: value })}
               onError={(e) => {
@@ -285,7 +285,7 @@ export default function News() {
             className="w-16 h-12 bg-gray-100 dark:bg-gray-700 rounded border flex items-center justify-center text-xs text-gray-400"
             style={{ display: value ? 'none' : 'flex' }}
           >
-            无图片
+            {t('news.noImage')}
           </div>
         </div>
       )
@@ -402,17 +402,17 @@ export default function News() {
       key: 'keyword',
       type: 'text',
       label: t('search.keyword'),
-      placeholder: '请输入关键词'
+      placeholder: t('search.keywordPlaceholder')
     },
     {
       key: 'startDate',
       type: 'date',
-      label: '开始日期'
+      label: t('search.startDate')
     },
     {
       key: 'endDate',
       type: 'date',
-      label: '结束日期'
+      label: t('search.endDate')
     },
     {
       key: 'status',
@@ -445,16 +445,16 @@ export default function News() {
       />
 
       {/* 数据表格 */}
-      <div className="mt-4 bg-white dark:bg-zinc-800 rounded-lg shadow overflow-hidden">
-        <DataTablePro
-          columns={columns}
-          data={data}
-          loading={loading}
-          sorting={sorting}
-          onSortingChange={setSorting}
-          enableColumnResizing={false}
-          emptyText="暂无新闻数据"
-        />
+          <div className="mt-4 bg-white dark:bg-zinc-800 rounded-lg shadow overflow-hidden">
+            <DataTablePro
+              columns={columns}
+              data={data}
+              loading={loading}
+              sorting={sorting}
+              onSortingChange={setSorting}
+              enableColumnResizing={false}
+              emptyText={t('news.noData')}
+            />
         
         {/* 分页器 */}
         {!loading && data.length > 0 && (
@@ -484,12 +484,12 @@ export default function News() {
           <div className="relative z-10 max-w-[90vw] max-h-[85vh] p-2 bg-white/5 rounded">
             <img
               src={preview.url}
-              alt="封面预览"
+              alt={t('news.coverPreview')}
               className="max-w-[88vw] max-h-[80vh] object-contain rounded shadow-lg"
             />
             <button
               className="absolute -top-3 -right-3 bg-white text-gray-700 rounded-full shadow p-1 hover:bg-gray-100"
-              aria-label="关闭"
+              aria-label={t('common.close')}
               onClick={() => setPreview({ open: false, url: '' })}
             >
               ✕
